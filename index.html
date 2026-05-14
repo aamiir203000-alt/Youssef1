@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Youssef Abdellatif — IT & Network Engineer</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
     :root {
       --bg: #0b0f1a;
@@ -51,13 +52,14 @@
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 1.2rem 4rem;
       background: rgba(11,15,26,0.95);
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
 
@@ -72,6 +74,7 @@
       display: flex;
       gap: 2.5rem;
       list-style: none;
+      align-items: center;
     }
 
     .nav-links a {
@@ -109,6 +112,24 @@
     .nav-cta:hover { background: #3a7ae8 !important; transform: translateY(-1px); }
     .nav-cta::after { display: none !important; }
 
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .menu-toggle span {
+      width: 25px;
+      height: 2px;
+      background: var(--text);
+      transition: 0.3s;
+    }
+    .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
     /* ─── HERO ─── */
     .hero {
       min-height: 100vh;
@@ -119,7 +140,6 @@
       overflow: hidden;
     }
 
-    /* ─── THREE.JS SECTION CANVASES ─── */
     .section-canvas {
       position: absolute;
       inset: 0;
@@ -127,12 +147,12 @@
       height: 100%;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.25;
-      transition: opacity 0.8s ease;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
 
     .section-canvas.visible { 
-      opacity: 0.35;
+      opacity: 0.3;
     }
 
     section { 
@@ -401,6 +421,7 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 0 40px rgba(79,142,255,0.2);
+      cursor: pointer;
     }
 
     .avatar-box img {
@@ -409,14 +430,43 @@
       object-fit: cover;
       object-position: center top;
       display: block;
+      transition: 0.5s ease;
     }
 
-    .avatar-box::after {
-      content: '';
+    .avatar-overlay {
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 30%;
-      background: linear-gradient(to top, rgba(11,15,26,0.4), transparent);
+      inset: 0;
+      background: rgba(11, 15, 26, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      opacity: 0;
+      transition: 0.5s ease;
+      text-align: center;
+    }
+
+    .avatar-box:hover img {
+      transform: scale(1.1);
+      filter: blur(5px);
+    }
+
+    .avatar-box:hover .avatar-overlay {
+      opacity: 1;
+    }
+
+    .overlay-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .overlay-text {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.6;
     }
 
     .contact-pills {
@@ -498,7 +548,6 @@
 
     .skill-card {
       background: rgba(17, 24, 39, 0.7);
-      backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 1.8rem;
@@ -630,6 +679,12 @@
     }
 
     /* ─── PROJECT ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
     .project-card {
       background: rgba(17, 24, 39, 0.8);
       backdrop-filter: blur(8px);
@@ -637,6 +692,7 @@
       border-radius: 20px;
       overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
     }
 
     .project-card:hover {
@@ -683,6 +739,10 @@
       font-size: 0.9rem;
       line-height: 1.75;
       margin-bottom: 1.2rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .project-tech {
@@ -761,6 +821,7 @@
     .cert-card.amazon::before { background: #ff9900; }
     .cert-card.security::before { background: var(--accent3); }
     .cert-card.infra::before { background: var(--accent2); }
+    .cert-card.sql::before { background: var(--gold); }
 
     .cert-card:hover {
       border-color: var(--accent);
@@ -799,121 +860,6 @@
       border-radius: 4px;
       font-size: 0.72rem;
       font-family: 'DM Mono', monospace;
-    }
-
-    /* ─── EDUCATION ─── */
-    #education { background: rgba(17, 24, 39, 0.5); }
-
-    .edu-card {
-      background: rgba(17, 24, 39, 0.8);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .edu-card::after {
-      content: 'BIS';
-      position: absolute;
-      right: 2rem; top: 50%;
-      transform: translateY(-50%);
-      font-family: 'DM Serif Display', serif;
-      font-size: 6rem;
-      color: rgba(79,142,255,0.04);
-      pointer-events: none;
-    }
-
-    .edu-meta {
-      display: flex;
-      align-items: flex-start;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .edu-icon {
-      width: 60px; height: 60px;
-      background: rgba(79,142,255,0.1);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-    }
-
-    .edu-details h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.6rem;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-
-    .edu-school {
-      color: var(--accent2);
-      font-size: 0.9rem;
-      font-family: 'DM Mono', monospace;
-      margin-bottom: 0.25rem;
-    }
-
-    .edu-year {
-      color: var(--text3);
-      font-size: 0.82rem;
-    }
-
-    .edu-courses {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .course-tag {
-      background: rgba(26, 34, 53, 0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      color: var(--text2);
-      padding: 0.3rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.78rem;
-    }
-
-    /* ─── COMPETENCIES ─── */
-    #competencies { background: rgba(17, 24, 39, 0.5); }
-
-    .comp-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-    }
-
-    .comp-item {
-      background: rgba(17, 24, 39, 0.8);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.2rem 1.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      transition: all 0.2s;
-    }
-
-    .comp-item:hover {
-      border-color: var(--accent2);
-      background: rgba(0,212,170,0.04);
-    }
-
-    .comp-dot {
-      width: 8px; height: 8px;
-      background: var(--accent2);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .comp-item span {
-      font-size: 0.88rem;
-      color: var(--text2);
     }
 
     /* ─── CONTACT ─── */
@@ -957,6 +903,113 @@
       box-shadow: 0 8px 25px rgba(79,142,255,0.15);
     }
 
+    /* ─── WHATSAPP FLOATING BUTTON ─── */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: #25d366;
+      color: #FFF;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      background-color: #128c7e;
+    }
+
+    /* ─── MODAL STYLES ─── */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(11, 15, 26, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .modal-content {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-size: 1.5rem;
+      color: var(--text3);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .close-modal:hover { color: var(--accent3); }
+
+    /* ─── ADMIN STYLES ─── */
+    .login-card {
+      max-width: 400px;
+      margin: 100px auto;
+      background: var(--bg2);
+      padding: 3rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .login-input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 1.5rem 0;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: white;
+      border-radius: 8px;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .login-error { color: #ff6b6b; display: none; margin-top: 1rem; }
+    
+    .topbar {
+      padding: 1.5rem 2rem;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dash-layout { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 80px); }
+    .sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 1.5rem; }
+    .sidebar-item { padding: 0.8rem; cursor: pointer; border-radius: 8px; margin-bottom: 0.5rem; transition: 0.2s; }
+    .sidebar-item:hover, .sidebar-item.active { background: var(--bg3); color: var(--accent); }
+    .main-content { padding: 2rem; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .edit-card { background: var(--bg2); padding: 2rem; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 1.5rem; }
+    .field-group { margin-bottom: 1.2rem; }
+    .field-label { display: block; margin-bottom: 0.5rem; color: var(--text3); font-size: 0.8rem; }
+    .field-input { width: 100%; padding: 0.8rem; background: var(--bg3); border: 1px solid var(--border); color: white; border-radius: 8px; }
+    .save-btn { padding: 0.8rem 2rem; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; }
+    .logout-btn { background: transparent; border: 1px solid #ff6b6b; color: #ff6b6b; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+
     /* ─── FOOTER ─── */
     footer {
       text-align: center;
@@ -983,352 +1036,48 @@
     .fade-in:nth-child(3) { animation-delay: 0.4s; }
     .fade-in:nth-child(4) { animation-delay: 0.55s; }
 
-    /* ─── ADMIN PANEL STYLES ─── */
-    .login-card {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(17, 24, 39, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 3rem;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      z-index: 10001;
-    }
-
-    .login-card h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-
-    .login-card p {
-      color: var(--text3);
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .login-input {
-      width: 100%;
-      background: rgba(26, 34, 53, 0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.85rem 1.1rem;
-      color: var(--text);
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .login-input:focus {
-      border-color: var(--accent);
-    }
-
-    .login-btn {
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 0.85rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s;
-      margin-bottom: 1rem;
-    }
-
-    .login-btn:hover {
-      background: #3a7ae8;
-      transform: translateY(-2px);
-    }
-
-    .login-error {
-      color: var(--accent3);
-      font-size: 0.82rem;
-      display: none;
-    }
-
-    .topbar {
-      background: rgba(26, 34, 53, 0.8);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    .topbar-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.5rem;
-      color: var(--text);
-    }
-
-    .topbar-title span {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--text3);
-      font-family: 'DM Mono', monospace;
-      margin-top: 0.25rem;
-    }
-
-    .preview-link {
-      color: var(--accent2);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-
-    .preview-link:hover {
-      color: var(--accent);
-    }
-
-    .logout-btn {
-      background: rgba(255,107,107,0.15);
-      border: 1px solid rgba(255,107,107,0.3);
-      color: #ff6b6b;
-      padding: 0.5rem 1.2rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-    }
-
-    .logout-btn:hover {
-      background: rgba(255,107,107,0.25);
-    }
-
-    .dash-layout {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 2rem;
-      padding: 0 2rem;
-    }
-
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .sidebar-item {
-      padding: 0.85rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--text2);
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .sidebar-item:hover {
-      background: rgba(26, 34, 53, 0.6);
-      color: var(--accent);
-    }
-
-    .sidebar-item.active {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .sidebar-icon {
-      font-size: 1.1rem;
-    }
-
-    .main-content {
-      background: rgba(26, 34, 53, 0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 2rem;
-      max-height: 70vh;
-      overflow-y: auto;
-    }
-
-    .panel {
-      display: none;
-    }
-
-    .panel.active {
-      display: block;
-    }
-
-    .panel-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-
-    .panel-sub {
-      color: var(--text3);
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
-    }
-
-    .edit-card {
-      background: rgba(17, 24, 39, 0.8);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .edit-card h3 {
-      color: var(--text);
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .field-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .field-label {
-      color: var(--text3);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.5rem;
-      font-family: 'DM Mono', monospace;
-    }
-
-    .field-input {
-      background: rgba(26, 34, 53, 0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem;
-      color: var(--text);
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .field-input:focus {
-      border-color: var(--accent);
-    }
-
-    .field-textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .add-btn {
-      background: rgba(79,142,255,0.15);
-      border: 1px solid rgba(79,142,255,0.3);
-      color: var(--accent);
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-      margin-bottom: 1rem;
-    }
-
-    .add-btn:hover {
-      background: rgba(79,142,255,0.25);
-    }
-
-    .save-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      padding: 0.85rem 2rem;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: all 0.2s;
-      width: 100%;
-    }
-
-    .save-btn:hover {
-      background: #3a7ae8;
-      transform: translateY(-2px);
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-box {
-      background: rgba(26, 34, 53, 0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-
-    .stat-box .num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .stat-box .lbl {
-      color: var(--text3);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      margin-top: 0.5rem;
-    }
-
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.2rem; }
+      .nav-links { 
+        position: fixed;
+        top: 0; right: -100%;
+        width: 70%; height: 100vh;
+        background: var(--bg2);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s;
+        z-index: 1000;
+      }
+      .nav-links.active { right: 0; }
+      .menu-toggle { display: flex; }
       .hero { padding: 6rem 1.5rem 3rem; }
       .hero-content { grid-template-columns: 1fr; gap: 3rem; }
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
       section { padding: 4rem 1.5rem; }
       .dash-layout { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 600px) {
-      .nav-links { display: none; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
-      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .whatsapp-float { width: 50px; height: 50px; font-size: 25px; bottom: 20px; right: 20px; }
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
 </head>
 <body>
 
   <!-- NAV -->
   <nav>
     <div class="nav-logo">Y.Abdellatif</div>
-    <ul class="nav-links">
+    <div class="menu-toggle" id="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links" id="nav-list">
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
@@ -1357,7 +1106,7 @@
         <div class="card-location">📍 Cairo, Egypt</div>
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-num">5+</div>
+            <div class="stat-num">8+</div>
             <div class="stat-label">Certifications</div>
           </div>
           <div class="stat-item">
@@ -1377,8 +1126,8 @@
           <span class="cert-tag">CCNA</span>
           <span class="cert-tag">MCSA</span>
           <span class="cert-tag">AWS</span>
-          <span class="cert-tag">Azure AZ</span>
-          <span class="cert-tag">InfoSec</span>
+          <span class="cert-tag">Azure</span>
+          <span class="cert-tag">SQL</span>
         </div>
       </div>
     </div>
@@ -1393,7 +1142,17 @@
       <div class="section-line"></div>
       <div class="about-grid">
         <div class="about-visual">
-          <div class="avatar-box"><img src="profile.jpg" alt="Youssef Abdellatif" /></div>
+          <div class="avatar-box">
+            <img src="profile.jpg" alt="Youssef Abdellatif" />
+            <div class="avatar-overlay">
+              <div class="overlay-title">Youssef Abdellatif</div>
+              <div class="overlay-text">
+                IT & Network Engineer specialized in Cloud Infrastructure and System Analysis.
+                <br><br>
+                <strong>Focus:</strong> Networking, Azure, AWS, Windows Server.
+              </div>
+            </div>
+          </div>
           <div class="contact-pills">
             <a href="mailto:usefelwafi120@gmail.com" class="contact-pill">
               <div class="pill-icon">✉️</div>
@@ -1513,9 +1272,8 @@
           <div class="skill-tags">
             <span class="skill-tag">Technical Troubleshooting</span>
             <span class="skill-tag">Hardware Support</span>
-            <span class="skill-tag">ITSM</span>
-            <span class="skill-tag">Help Desk</span>
-            <span class="skill-tag">Software Support</span>
+            <span class="skill-tag">Software Deployment</span>
+            <span class="skill-tag">User Training</span>
           </div>
         </div>
       </div>
@@ -1526,30 +1284,29 @@
   <section id="experience">
     <canvas id="experience-canvas" class="section-canvas"></canvas>
     <div class="container">
-      <p class="section-label">Where I've Worked</p>
+      <p class="section-label">My Journey</p>
       <h2 class="section-title">Experience</h2>
       <div class="section-line"></div>
       <div class="timeline">
         <div class="timeline-item">
           <div class="timeline-dot"></div>
-          <div class="timeline-date">Summer 2024 & Summer 2025</div>
+          <p class="timeline-date">Summer 2024 & Summer 2025</p>
           <h3 class="timeline-title">Technology & Operations Intern</h3>
-          <div class="timeline-company">🏨 The Nile Ritz-Carlton Hotel — Cairo, Egypt</div>
+          <p class="timeline-company">🏨 The Nile Ritz-Carlton Hotel — Cairo, Egypt</p>
           <ul class="timeline-bullets">
-            <li>Gained hands-on experience with enterprise IT systems and hospitality technology infrastructure in a 5-star international environment.</li>
-            <li>Observed and supported configuration and troubleshooting of network systems, ensuring operational uptime for hotel operations.</li>
-            <li>Developed professional skills in client-facing environments, cross-functional collaboration, and IT service management.</li>
-            <li>Exposed to enterprise-grade hardware, software, and network infrastructure in a high-demand business setting.</li>
+            <li>Gained hands-on experience with enterprise IT systems and hospitality technology infrastructure.</li>
+            <li>Supported configuration and troubleshooting of network systems, ensuring operational uptime.</li>
+            <li>Developed professional skills in IT service management and cross-functional collaboration.</li>
           </ul>
         </div>
         <div class="timeline-item">
-          <div class="timeline-dot" style="background:var(--accent2)"></div>
-          <div class="timeline-date">2021 – Present</div>
+          <div class="timeline-dot"></div>
+          <p class="timeline-date">2021 – Present</p>
           <h3 class="timeline-title">Bachelor of Science — BIS</h3>
-          <div class="timeline-company">🎓 El-Shorouk Academy — Cairo, Egypt</div>
+          <p class="timeline-company">🎓 El-Shorouk Academy — Cairo, Egypt</p>
           <ul class="timeline-bullets">
             <li>Studying Business Information Systems with a focus on networks, databases, and software engineering.</li>
-            <li>Led graduation project: AI-powered Smart Attendance & Counting System — full system analysis, DB design, and SRS documentation.</li>
+            <li>Led graduation project: AI-powered Smart Attendance & Counting System.</li>
           </ul>
         </div>
       </div>
@@ -1563,86 +1320,48 @@
       <p class="section-label">What I've Built</p>
       <h2 class="section-title">Projects</h2>
       <div class="section-line"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;" class="projects-grid">
-      <div class="project-card">
-        <div class="project-header">
-          <span class="project-year">2025 – 2026</span>
-          <div class="project-emoji">🤖</div>
-          <h3 class="project-name">Smart Attendance & Counting System</h3>
-        </div>
-        <div class="project-body">
-          <p class="project-desc">
-            An AI-powered attendance management system leveraging Computer Vision and Face Recognition to fully automate student attendance tracking. Engineered to serve an entire faculty with minimal hardware, featuring real-time facial detection, anti-fraud controls, and a comprehensive web dashboard for reporting and monitoring.
-          </p>
-          <p class="project-desc">
-            Led end-to-end system analysis: authored 30+ page SRS documentation, defined functional & non-functional requirements, and designed complete UML & ERD diagrams. Designed and optimized a relational SQL database schema to store attendance records, reports, and user profiles.
-          </p>
-          <div class="project-tech">
-            <span class="tech-tag">AI / Computer Vision</span>
-            <span class="tech-tag">Face Recognition</span>
-            <span class="tech-tag">SQL Database</span>
-            <span class="tech-tag">Web Dashboard</span>
-            <span class="tech-tag">UML / ERD</span>
-            <span class="tech-tag">SRS Documentation</span>
+      <div class="projects-grid">
+        <!-- PROJECT 1 -->
+        <div class="project-card" onclick="openProject(1)">
+          <div class="project-header">
+            <span class="project-year">2025 – 2026</span>
+            <div class="project-emoji">🤖</div>
+            <h3 class="project-name">Smart Attendance & Counting System</h3>
           </div>
-          <div class="project-metrics">
-            <div class="metric">
-              <div class="metric-val">90%</div>
-              <div class="metric-label">Time Saved</div>
+          <div class="project-body">
+            <p class="project-desc">An AI-powered attendance management system leveraging Computer Vision and Face Recognition to fully automate student attendance tracking.</p>
+            <div class="project-tech">
+              <span class="tech-tag">AI / Computer Vision</span>
+              <span class="tech-tag">SQL Database</span>
+              <span class="tech-tag">UML / ERD</span>
             </div>
-            <div class="metric">
-              <div class="metric-val">500+</div>
-              <div class="metric-label">Students</div>
-            </div>
-            <div class="metric">
-              <div class="metric-val">30+</div>
-              <div class="metric-label">Pages SRS</div>
+            <div class="project-metrics">
+              <div class="metric"><div class="metric-val">90%</div><div class="metric-label">Time Saved</div></div>
+              <div class="metric"><div class="metric-val">500+</div><div class="metric-label">Students</div></div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- NETWORK PROJECT -->
-      <div class="project-card">
-        <div class="project-header" style="background:linear-gradient(135deg,rgba(26, 34, 53, 0.8) 0%,rgba(0,212,170,0.08) 100%);">
-          <span class="project-year">Field Training</span>
-          <div class="project-emoji">🖧</div>
-          <h3 class="project-name">Enterprise Network Infrastructure</h3>
-        </div>
-        <div class="project-body">
-          <p class="project-desc">
-            Designed and implemented a complete network infrastructure project using <strong style="color:var(--accent2)">GNS3</strong> during field training. Merged two separate networks into one secure and unified environment with full VLAN segmentation, subnetting, and optimized routing.
-          </p>
-          <p class="project-desc">
-            Participated in all project phases — from network planning and topology design, through device configuration and troubleshooting, to connectivity testing and performance optimization ensuring stable and efficient communication.
-          </p>
-          <div class="project-tech">
-            <span class="tech-tag">GNS3</span>
-            <span class="tech-tag">VLAN</span>
-            <span class="tech-tag">Subnetting</span>
-            <span class="tech-tag">Routing</span>
-            <span class="tech-tag">Switching</span>
-            <span class="tech-tag">Network Merging</span>
-            <span class="tech-tag">Topology Design</span>
+        <!-- PROJECT 2 -->
+        <div class="project-card" onclick="openProject(2)">
+          <div class="project-header" style="background:linear-gradient(135deg,rgba(26, 34, 53, 0.8) 0%,rgba(0,212,170,0.08) 100%);">
+            <span class="project-year">Field Training</span>
+            <div class="project-emoji">🖧</div>
+            <h3 class="project-name">Enterprise Network Infrastructure</h3>
           </div>
-          <div class="project-metrics">
-            <div class="metric">
-              <div class="metric-val">2</div>
-              <div class="metric-label">Networks Merged</div>
+          <div class="project-body">
+            <p class="project-desc">Designed and implemented a complete network infrastructure project using GNS3, merging two separate networks into one secure environment.</p>
+            <div class="project-tech">
+              <span class="tech-tag">GNS3</span>
+              <span class="tech-tag">VLAN</span>
+              <span class="tech-tag">Routing</span>
             </div>
-            <div class="metric">
-              <div class="metric-val">6</div>
-              <div class="metric-label">Project Phases</div>
-            </div>
-            <div class="metric">
-              <div class="metric-val">100%</div>
-              <div class="metric-label">Uptime</div>
+            <div class="project-metrics">
+              <div class="metric"><div class="metric-val">2</div><div class="metric-label">Nets Merged</div></div>
+              <div class="metric"><div class="metric-val">100%</div><div class="metric-label">Uptime</div></div>
             </div>
           </div>
         </div>
       </div>
-
-      </div><!-- end projects-grid -->
     </div>
   </section>
 
@@ -1656,134 +1375,76 @@
       <div class="certs-grid">
         <div class="cert-card cisco">
           <div class="cert-logo" style="background:rgba(4,159,217,0.12)">🌐</div>
-          <div class="cert-info">
-            <h4>CCNA</h4>
-            <div class="issuer">Cisco Certified Network Associate</div>
-            <span class="year">2023</span>
-          </div>
+          <div class="cert-info"><h4>CCNA</h4><div class="issuer">Cisco Certified Network Associate</div><span class="year">2023</span></div>
         </div>
         <div class="cert-card microsoft">
           <div class="cert-logo" style="background:rgba(0,161,241,0.12)">🪟</div>
-          <div class="cert-info">
-            <h4>MCSA</h4>
-            <div class="issuer">Microsoft Certified: Systems Admin</div>
-            <span class="year">2024</span>
-          </div>
+          <div class="cert-info"><h4>MCSA</h4><div class="issuer">Microsoft Certified: Systems Admin</div><span class="year">2024</span></div>
         </div>
         <div class="cert-card amazon">
           <div class="cert-logo" style="background:rgba(255,153,0,0.12)">☁️</div>
-          <div class="cert-info">
-            <h4>AWS Solutions Architect</h4>
-            <div class="issuer">Amazon Web Services</div>
-            <span class="year">2024</span>
-          </div>
+          <div class="cert-info"><h4>AWS Solutions Architect</h4><div class="issuer">Amazon Web Services</div><span class="year">2024</span></div>
         </div>
         <div class="cert-card security">
           <div class="cert-logo" style="background:rgba(255,107,107,0.12)">🔐</div>
-          <div class="cert-info">
-            <h4>CompTIA Security+</h4>
-            <div class="issuer">CompTIA</div>
-            <span class="year">2023</span>
-          </div>
+          <div class="cert-info"><h4>CompTIA Security+</h4><div class="issuer">CompTIA</div><span class="year">2023</span></div>
         </div>
         <div class="cert-card infra">
           <div class="cert-logo" style="background:rgba(0,212,170,0.12)">🏗️</div>
-          <div class="cert-info">
-            <h4>Azure Administrator</h4>
-            <div class="issuer">Microsoft Azure</div>
-            <span class="year">2024</span>
-          </div>
+          <div class="cert-info"><h4>Azure Administrator</h4><div class="issuer">Microsoft Azure</div><span class="year">2024</span></div>
         </div>
         <div class="cert-card infra">
           <div class="cert-logo" style="background:rgba(0,212,170,0.12)">📊</div>
-          <div class="cert-info">
-            <h4>Google Cloud Associate</h4>
-            <div class="issuer">Google Cloud</div>
-            <span class="year">2024</span>
-          </div>
+          <div class="cert-info"><h4>Google Cloud Associate</h4><div class="issuer">Google Cloud</div><span class="year">2024</span></div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EDUCATION -->
-  <section id="education">
-    <canvas id="edu-canvas" class="section-canvas"></canvas>
-    <div class="container">
-      <p class="section-label">Learning Journey</p>
-      <h2 class="section-title">Education</h2>
-      <div class="section-line"></div>
-      <div class="edu-card">
-        <div class="edu-meta">
-          <div class="edu-icon">🎓</div>
-          <div class="edu-details">
-            <h3>Bachelor of Science</h3>
-            <div class="edu-school">Business Information Systems</div>
-            <div class="edu-year">2021 – Present | El-Shorouk Academy, Cairo</div>
-            <div class="edu-courses">
-              <span class="course-tag">Database Design</span>
-              <span class="course-tag">Network Administration</span>
-              <span class="course-tag">Software Engineering</span>
-              <span class="course-tag">System Analysis</span>
-              <span class="course-tag">Business Analysis</span>
-            </div>
-          </div>
+        <!-- NEW CERTS -->
+        <div class="cert-card sql">
+          <div class="cert-logo" style="background:rgba(240,180,41,0.12)">💾</div>
+          <div class="cert-info"><h4>SQLBolt</h4><div class="issuer">SQL Mastery Certification</div><span class="year">2025</span></div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPETENCIES -->
-  <section id="competencies">
-    <canvas id="comp-canvas" class="section-canvas"></canvas>
-    <div class="container">
-      <p class="section-label">Core Competencies</p>
-      <h2 class="section-title">What Sets Me Apart</h2>
-      <div class="section-line"></div>
-      <div class="comp-grid">
-        <div class="comp-item"><div class="comp-dot"></div><span>Problem Solving</span></div>
-        <div class="comp-item"><div class="comp-dot"></div><span>System Design</span></div>
-        <div class="comp-item"><div class="comp-dot"></div><span>Team Leadership</span></div>
-        <div class="comp-item"><div class="comp-dot"></div><span>Technical Documentation</span></div>
-        <div class="comp-item"><div class="comp-dot"></div><span>Project Management</span></div>
-        <div class="comp-item"><div class="comp-dot"></div><span>Client Communication</span></div>
-        <div class="comp-item"><div class="comp-dot"></div><span>Infrastructure Planning</span></div>
-        <div class="comp-item"><div class="comp-dot"></div><span>Security Best Practices</span></div>
+        <div class="cert-card infra">
+          <div class="cert-logo" style="background:rgba(79,142,255,0.12)">☁️</div>
+          <div class="cert-info"><h4>Cloud Infrastructure</h4><div class="issuer">Enterprise Cloud Design</div><span class="year">2025</span></div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact">
-    <canvas id="contact-canvas" class="section-canvas"></canvas>
     <div class="container">
       <div class="contact-wrapper">
         <p class="section-label">Get In Touch</p>
         <h2 class="section-title">Let's Connect</h2>
-        <p style="color:var(--text2);margin-bottom:2rem;">Have a project in mind or want to collaborate? I'd love to hear from you.</p>
+        <div class="section-line" style="margin: 0 auto 3rem;"></div>
+        <p style="color: var(--text2); margin-bottom: 2rem;">I'm currently looking for new opportunities in IT Support, Network Engineering, or Cloud Administration. Feel free to reach out!</p>
         <div class="contact-links">
-          <a href="mailto:usefelwafi120@gmail.com" class="contact-link">📧 Email</a>
-          <a href="https://linkedin.com/in/youssef-abdellatif-1a9174335" target="_blank" class="contact-link">💼 LinkedIn</a>
-          <a href="tel:+201064543891" class="contact-link">📱 Phone</a>
+          <a href="mailto:usefelwafi120@gmail.com" class="contact-link">✉️ Email Me</a>
+          <a href="https://linkedin.com/in/youssef-abdellatif-1a9174335" target="_blank" class="contact-link">🔗 LinkedIn</a>
+          <a href="tel:+201064543891" class="contact-link">📱 Call Me</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    © 2024-2025 Youssef Abdellatif. All rights reserved. | Built with Three.js & Modern Web Technologies
-  </footer>
+  <!-- WHATSAPP BUTTON -->
+  <a href="https://wa.me/201064543891" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 
-  <!-- ══════════════════════════════════════════
-       ADMIN DASHBOARD (hidden by default)
-  ══════════════════════════════════════════ -->
+  <!-- PROJECT MODAL -->
+  <div id="project-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeProject()">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN OVERLAY -->
   <div id="admin-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(11,15,26,0.95);overflow-y:auto;backdrop-filter:blur(5px);">
     <div style="position:absolute;top:1rem;right:1.5rem;z-index:10000;">
       <button onclick="closeAdmin()" style="background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.3);color:#ff6b6b;padding:0.5rem 1.2rem;border-radius:8px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:0.85rem;">✕ Close</button>
     </div>
-    
-    <!-- LOGIN SCREEN -->
     <div id="login-screen">
       <div class="login-card">
         <div style="font-size:2.5rem;margin-bottom:1rem;">🔐</div>
@@ -1794,209 +1455,185 @@
         <p class="login-error" id="login-err">❌ Wrong password. Try again.</p>
       </div>
     </div>
-
-    <!-- DASHBOARD -->
     <div id="dashboard" style="display:none;">
       <div class="topbar">
-        <div class="topbar-title">
-          Portfolio Dashboard
-          <span>admin panel</span>
-        </div>
+        <div class="topbar-title">Portfolio Dashboard <span>admin panel</span></div>
         <div style="display:flex;gap:1rem;align-items:center;">
-          <a href="index.html" target="_blank" class="preview-link">👁 Preview Site →</a>
           <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
       </div>
-
       <div class="dash-layout">
-        <!-- SIDEBAR -->
         <div class="sidebar">
-          <div class="sidebar-item active" onclick="showPanel('overview')">
-            <span class="sidebar-icon">📊</span> Overview
-          </div>
-          <div class="sidebar-item" onclick="showPanel('hero')">
-            <span class="sidebar-icon">🏠</span> Hero Section
-          </div>
-          <div class="sidebar-item" onclick="showPanel('about')">
-            <span class="sidebar-icon">👤</span> About Me
-          </div>
-          <div class="sidebar-item" onclick="showPanel('skills')">
-            <span class="sidebar-icon">⚡</span> Skills
-          </div>
-          <div class="sidebar-item" onclick="showPanel('experience')">
-            <span class="sidebar-icon">💼</span> Experience
-          </div>
-          <div class="sidebar-item" onclick="showPanel('projects')">
-            <span class="sidebar-icon">🚀</span> Projects
-          </div>
-          <div class="sidebar-item" onclick="showPanel('certs')">
-            <span class="sidebar-icon">🎖</span> Certifications
-          </div>
-          <div class="sidebar-item" onclick="showPanel('contact')">
-            <span class="sidebar-icon">📬</span> Contact Info
-          </div>
+          <div class="sidebar-item active" onclick="showPanel('overview')">📊 Overview</div>
+          <div class="sidebar-item" onclick="showPanel('hero')">🏠 Hero Section</div>
+          <div class="sidebar-item" onclick="showPanel('contact')">📬 Contact Info</div>
         </div>
-
-        <!-- MAIN CONTENT -->
         <div class="main-content">
-          <!-- OVERVIEW PANEL -->
           <div class="panel active" id="panel-overview">
-            <div class="panel-title">Welcome back, Youssef 👋</div>
-            <div class="panel-sub">portfolio · last updated today</div>
-            <div class="stats-row">
-              <div class="stat-box"><div class="num">8</div><div class="lbl">Three.js Scenes</div></div>
-              <div class="stat-box"><div class="num">6</div><div class="lbl">Skill Categories</div></div>
-              <div class="stat-box"><div class="num">6</div><div class="lbl">Certifications</div></div>
-              <div class="stat-box"><div class="num">2</div><div class="lbl">Projects</div></div>
-            </div>
-            <div class="edit-card">
-              <h3>📋 Quick Guide</h3>
-              <p style="color:var(--text2);font-size:0.88rem;line-height:1.8;">
-                ✨ All 8 Three.js scenes are now fully functional and visible in every section! Each section has its own animated background with unique visual effects. Use the sidebar to navigate and manage your portfolio content.
-              </p>
-            </div>
+            <h2>Welcome back, Youssef 👋</h2>
+            <p>All Three.js scenes are optimized and running smoothly.</p>
           </div>
-
-          <!-- HERO PANEL -->
           <div class="panel" id="panel-hero">
-            <div class="panel-title">Hero Section</div>
-            <div class="panel-sub">edit your name, title, and summary</div>
             <div class="edit-card">
-              <h3>Personal Info</h3>
-              <div class="field-row">
-                <div class="field-group">
-                  <label class="field-label">First Name</label>
-                  <input type="text" class="field-input" id="h-first" value="Youssef" />
-                </div>
-                <div class="field-group">
-                  <label class="field-label">Last Name</label>
-                  <input type="text" class="field-input" id="h-last" value="Abdellatif" />
-                </div>
-              </div>
+              <h3>Hero Info</h3>
               <div class="field-group">
-                <label class="field-label">Job Title / Tagline</label>
+                <label class="field-label">Tagline</label>
                 <input type="text" class="field-input" id="h-title" value="IT Support / Network Engineer / Cloud" />
               </div>
-              <div class="field-group">
-                <label class="field-label">Short Description</label>
-                <textarea class="field-input field-textarea" id="h-desc">Results-driven Business Information Systems student with hands-on experience in IT support, network administration, and cloud computing. Building intelligent systems where infrastructure meets innovation.</textarea>
-              </div>
             </div>
-            <button class="save-btn" onclick="saveHero()">Save & Update</button>
+            <button class="save-btn" onclick="saveHero()">Save Changes</button>
           </div>
-
-          <!-- ABOUT PANEL -->
-          <div class="panel" id="panel-about">
-            <div class="panel-title">About Me</div>
-            <div class="panel-sub">edit your bio paragraphs</div>
-            <div class="edit-card">
-              <h3>Bio Content</h3>
-              <div class="field-group">
-                <label class="field-label">Bio Text</label>
-                <textarea class="field-input field-textarea" id="about-text">I'm a Business Information Systems student at El-Shorouk Academy, Cairo, combining deep technical expertise with a passion for building systems that scale.</textarea>
-              </div>
-            </div>
-            <button class="save-btn" onclick="saveAbout()">Save & Update</button>
-          </div>
-
-          <!-- SKILLS PANEL -->
-          <div class="panel" id="panel-skills">
-            <div class="panel-title">Skills</div>
-            <div class="panel-sub">add or edit skill categories and tags</div>
-            <div class="edit-card">
-              <h3>Manage Skills</h3>
-              <p style="color:var(--text3);font-size:0.85rem;">Skills are currently displayed from the HTML. To add new skills, edit the HTML directly in the skills section.</p>
-            </div>
-            <button class="save-btn" onclick="saveSkills()">Refresh Skills</button>
-          </div>
-
-          <!-- EXPERIENCE PANEL -->
-          <div class="panel" id="panel-experience">
-            <div class="panel-title">Experience</div>
-            <div class="panel-sub">edit your work and education timeline</div>
-            <div class="edit-card">
-              <h3>Experience Items</h3>
-              <p style="color:var(--text3);font-size:0.85rem;">Experience items are currently displayed from the HTML. To add new experiences, edit the HTML directly in the experience section.</p>
-            </div>
-            <button class="save-btn" onclick="saveExp()">Refresh Experience</button>
-          </div>
-
-          <!-- PROJECTS PANEL -->
-          <div class="panel" id="panel-projects">
-            <div class="panel-title">Projects</div>
-            <div class="panel-sub">add, edit, or remove projects</div>
-            <div class="edit-card">
-              <h3>Manage Projects</h3>
-              <p style="color:var(--text3);font-size:0.85rem;">Projects are currently displayed from the HTML. To add new projects, edit the HTML directly in the projects section.</p>
-            </div>
-            <button class="save-btn" onclick="saveProjects()">Refresh Projects</button>
-          </div>
-
-          <!-- CERTS PANEL -->
-          <div class="panel" id="panel-certs">
-            <div class="panel-title">Certifications</div>
-            <div class="panel-sub">manage your certifications</div>
-            <div class="edit-card">
-              <h3>Manage Certifications</h3>
-              <p style="color:var(--text3);font-size:0.85rem;">Certifications are currently displayed from the HTML. To add new certifications, edit the HTML directly in the certifications section.</p>
-            </div>
-            <button class="save-btn" onclick="saveCerts()">Refresh Certifications</button>
-          </div>
-
-          <!-- CONTACT PANEL -->
           <div class="panel" id="panel-contact">
-            <div class="panel-title">Contact Info</div>
-            <div class="panel-sub">update your contact details</div>
             <div class="edit-card">
               <h3>Contact Details</h3>
               <div class="field-group">
                 <label class="field-label">Email</label>
                 <input type="email" class="field-input" id="contact-email" value="usefelwafi120@gmail.com" />
               </div>
-              <div class="field-group">
-                <label class="field-label">Phone</label>
-                <input type="tel" class="field-input" id="contact-phone" value="+201064543891" />
-              </div>
-              <div class="field-group">
-                <label class="field-label">LinkedIn</label>
-                <input type="url" class="field-input" id="contact-linkedin" value="https://linkedin.com/in/youssef-abdellatif-1a9174335" />
-              </div>
             </div>
-            <button class="save-btn" onclick="saveContact()">Save & Update</button>
+            <button class="save-btn" onclick="saveContact()">Save Changes</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <footer>
+    <p>&copy; 2024-2025 Youssef Abdellatif. Built with Three.js & Passion.</p>
+  </footer>
+
+  <!-- SCRIPTS -->
   <script>
-    // ════════════════════════════════════════════════════════════════
-    // THREE.JS UTILITIES & SETUP
-    // ════════════════════════════════════════════════════════════════
-    
+    // Project Data
+    const projects = {
+      1: {
+        name: "Smart Attendance & Counting System",
+        year: "2025 – 2026",
+        emoji: "🤖",
+        desc: "An AI-powered attendance management system leveraging Computer Vision and Face Recognition to fully automate student attendance tracking. Engineered to serve an entire faculty with minimal hardware, featuring real-time facial detection, anti-fraud controls, and a comprehensive web dashboard for reporting and monitoring.",
+        details: "Led end-to-end system analysis: authored 30+ page SRS documentation, defined functional & non-functional requirements, and designed complete UML & ERD diagrams. Designed and optimized a relational SQL database schema to store attendance records, reports, and user profiles.",
+        tech: ["AI / Computer Vision", "Face Recognition", "SQL Database", "Web Dashboard", "UML / ERD", "SRS Documentation"],
+        metrics: [{v: "90%", l: "Time Saved"}, {v: "500+", l: "Students"}, {v: "30+", l: "Pages SRS"}]
+      },
+      2: {
+        name: "Enterprise Network Infrastructure",
+        year: "Field Training",
+        emoji: "🖧",
+        desc: "Designed and implemented a complete network infrastructure project using GNS3 during field training. Merged two separate networks into one secure and unified environment with full VLAN segmentation, subnetting, and optimized routing.",
+        details: "Participated in all project phases — from network planning and topology design, through device configuration and troubleshooting, to connectivity testing and performance optimization ensuring stable and efficient communication.",
+        tech: ["GNS3", "VLAN", "Subnetting", "Routing", "Switching", "Network Merging", "Topology Design"],
+        metrics: [{v: "2", l: "Networks Merged"}, {v: "6", l: "Project Phases"}, {v: "100%", l: "Uptime"}]
+      }
+    };
+
+    function openProject(id) {
+      const p = projects[id];
+      const modal = document.getElementById('project-modal');
+      const body = document.getElementById('modal-body');
+      body.innerHTML = `
+        <div class="project-emoji" style="font-size: 4rem; margin-bottom: 1rem;">${p.emoji}</div>
+        <h2 class="section-title" style="margin-bottom: 0.5rem;">${p.name}</h2>
+        <p class="timeline-date" style="margin-bottom: 1.5rem;">${p.year}</p>
+        <p style="color: var(--text); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8;">${p.desc}</p>
+        <p style="color: var(--text2); margin-bottom: 2rem; line-height: 1.8;">${p.details}</p>
+        <div class="project-tech" style="margin-bottom: 2rem;">
+          ${p.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+        </div>
+        <div class="project-metrics">
+          ${p.metrics.map(m => `
+            <div class="metric">
+              <div class="metric-val">${m.v}</div>
+              <div class="metric-label">${m.l}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProject() {
+      document.getElementById('project-modal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Mobile Menu Logic
+    const menuToggle = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+    menuToggle.addEventListener('click', () => {
+      navList.classList.toggle('active');
+      menuToggle.classList.toggle('open');
+    });
+
+    // Admin Panel Functions
+    const ADMIN_PASSWORD = 'admin123';
+    function openAdmin() {
+      document.getElementById('admin-overlay').style.display = 'block';
+      document.getElementById('login-screen').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+    }
+    function closeAdmin() { document.getElementById('admin-overlay').style.display = 'none'; }
+    function login() {
+      const pwd = document.getElementById('pwd-input').value;
+      if (pwd === ADMIN_PASSWORD) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+      } else { document.getElementById('login-err').style.display = 'block'; }
+    }
+    function logout() {
+      document.getElementById('login-screen').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+    }
+    function showPanel(panelId) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + panelId).classList.add('active');
+      document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+    function saveHero() { alert('Hero updated!'); }
+    function saveContact() { alert('Contact updated!'); }
+
+    // Three.js Logic
     let mouseX = 0, mouseY = 0;
-    document.addEventListener('mousemove', (e) => {
+    window.addEventListener('mousemove', (e) => {
       mouseX = (e.clientX / window.innerWidth) - 0.5;
       mouseY = (e.clientY / window.innerHeight) - 0.5;
     });
 
     function makeRenderer(canvas) {
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      const renderer = new THREE.WebGLRenderer({ 
+        canvas, alpha: true, 
+        antialias: window.innerWidth > 768,
+        powerPreference: "high-performance"
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       return renderer;
     }
 
     function resizeRenderer(renderer, camera, canvas) {
-      const w = canvas.clientWidth, h = canvas.clientHeight;
-      renderer.setSize(w, h);
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
 
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 1 — HERO: Rotating Cube
-    // ════════════════════════════════════════════════════════════════
+    const activeScenes = new Set();
+    const sceneObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activeScenes.add(entry.target.id);
+          entry.target.classList.add('visible');
+        } else {
+          activeScenes.delete(entry.target.id);
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('canvas').forEach(c => sceneObserver.observe(c));
+
+    // HERO SCENE
     (function heroScene() {
       const canvas = document.getElementById('hero-canvas');
       if (!canvas) return;
@@ -2004,27 +1641,42 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
       camera.position.z = 50;
-      
       function resize() { resizeRenderer(renderer, camera, canvas); }
       resize(); window.addEventListener('resize', resize);
-
-      const geo = new THREE.BoxGeometry(20, 20, 20);
-      const mat = new THREE.MeshBasicMaterial({ color: 0x4f8eff, wireframe: true, transparent: true, opacity: 0.15 });
-      const cube = new THREE.Mesh(geo, mat);
-      scene.add(cube);
-
+      const group = new THREE.Group();
+      scene.add(group);
+      const nodeGeo = new THREE.SphereGeometry(0.5, 8, 8);
+      const nodeMat = new THREE.MeshBasicMaterial({ color: 0x4f8eff });
+      const lineMat = new THREE.LineBasicMaterial({ color: 0x4f8eff, transparent: true, opacity: 0.2 });
+      const nodes = [];
+      for(let i=0; i<30; i++) {
+        const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+        mesh.position.set((Math.random()-0.5)*60, (Math.random()-0.5)*60, (Math.random()-0.5)*60);
+        group.add(mesh);
+        nodes.push(mesh);
+      }
+      for(let i=0; i<nodes.length; i++) {
+        for(let j=i+1; j<nodes.length; j++) {
+          if(nodes[i].position.distanceTo(nodes[j].position) < 15) {
+            const points = [nodes[i].position, nodes[j].position];
+            const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(lineGeo, lineMat);
+            group.add(line);
+          }
+        }
+      }
       function animate() {
+        if (activeScenes.has('hero-canvas')) {
+          group.rotation.y += 0.001;
+          group.rotation.x += 0.0005;
+          renderer.render(scene, camera);
+        }
         requestAnimationFrame(animate);
-        cube.rotation.x += 0.0005;
-        cube.rotation.y += 0.0008;
-        renderer.render(scene, camera);
       }
       animate();
     })();
 
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 2 — ABOUT: DNA Helix
-    // ════════════════════════════════════════════════════════════════
+    // ABOUT SCENE
     (function aboutScene() {
       const canvas = document.getElementById('about-canvas');
       if (!canvas) return;
@@ -2032,38 +1684,31 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
       camera.position.z = 60;
-      
       function resize() { resizeRenderer(renderer, camera, canvas); }
       resize(); window.addEventListener('resize', resize);
-
-      const helixPoints = [];
-      for (let i = 0; i < 100; i++) {
-        const angle = (i / 100) * Math.PI * 4;
-        const x = Math.cos(angle) * 15;
-        const y = (i - 50) * 0.8;
-        const z = Math.sin(angle) * 15;
-        helixPoints.push(new THREE.Vector3(x, y, z));
-      }
-
-      const geo = new THREE.BufferGeometry().setFromPoints(helixPoints);
-      const mat = new THREE.LineBasicMaterial({ color: 0x00d4aa, linewidth: 2 });
-      const helix = new THREE.Line(geo, mat);
-      scene.add(helix);
-
+      const geo = new THREE.OctahedronGeometry(15, 2);
+      const mat = new THREE.MeshBasicMaterial({ color: 0x00d4aa, wireframe: true, transparent: true, opacity: 0.15 });
+      const core = new THREE.Mesh(geo, mat);
+      scene.add(core);
+      const innerGeo = new THREE.IcosahedronGeometry(8, 1);
+      const innerMat = new THREE.MeshBasicMaterial({ color: 0x4f8eff, wireframe: true, transparent: true, opacity: 0.3 });
+      const innerCore = new THREE.Mesh(innerGeo, innerMat);
+      scene.add(innerCore);
       function animate() {
+        if (activeScenes.has('about-canvas')) {
+          core.rotation.y += 0.005;
+          innerCore.rotation.y -= 0.008;
+          camera.position.x += (mouseX * 10 - camera.position.x) * 0.02;
+          camera.position.y += (-mouseY * 10 - camera.position.y) * 0.02;
+          camera.lookAt(scene.position);
+          renderer.render(scene, camera);
+        }
         requestAnimationFrame(animate);
-        helix.rotation.z += 0.003;
-        camera.position.x += (mouseX * 10 - camera.position.x) * 0.02;
-        camera.position.y += (-mouseY * 10 - camera.position.y) * 0.02;
-        camera.lookAt(scene.position);
-        renderer.render(scene, camera);
       }
       animate();
     })();
 
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 3 — SKILLS: Orbiting Rings
-    // ════════════════════════════════════════════════════════════════
+    // SKILLS SCENE
     (function skillsScene() {
       const canvas = document.getElementById('skills-canvas');
       if (!canvas) return;
@@ -2071,45 +1716,41 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
       camera.position.z = 70;
-      
       function resize() { resizeRenderer(renderer, camera, canvas); }
       resize(); window.addEventListener('resize', resize);
-
       const rings = [];
-      const ringConfigs = [
-        { r: 20, color: 0x4f8eff, speed: 0.003 },
-        { r: 30, color: 0x00d4aa, speed: 0.002 },
-        { r: 40, color: 0xa78bfa, speed: 0.001 }
-      ];
-
+      const ringConfigs = [{ r: 20, color: 0x4f8eff, speed: 0.003, count: 4 }, { r: 35, color: 0x00d4aa, speed: 0.002, count: 6 }];
       ringConfigs.forEach(cfg => {
-        const geo = new THREE.BufferGeometry();
-        const points = [];
-        for (let i = 0; i <= 64; i++) {
-          const angle = (i / 64) * Math.PI * 2;
-          points.push(new THREE.Vector3(Math.cos(angle) * cfg.r, Math.sin(angle) * cfg.r, 0));
+        const ringGroup = new THREE.Group();
+        const geo = new THREE.TorusGeometry(cfg.r, 0.05, 16, 100);
+        const mat = new THREE.MeshBasicMaterial({ color: cfg.color, transparent: true, opacity: 0.2 });
+        const ring = new THREE.Mesh(geo, mat);
+        ringGroup.add(ring);
+        const satelliteGeo = new THREE.BoxGeometry(2, 2, 2);
+        const satelliteMat = new THREE.MeshBasicMaterial({ color: cfg.color, wireframe: true });
+        for(let i=0; i<cfg.count; i++) {
+          const sat = new THREE.Mesh(satelliteGeo, satelliteMat);
+          const angle = (i / cfg.count) * Math.PI * 2;
+          sat.position.set(Math.cos(angle) * cfg.r, Math.sin(angle) * cfg.r, 0);
+          ringGroup.add(sat);
         }
-        geo.setFromPoints(points);
-        const mat = new THREE.LineBasicMaterial({ color: cfg.color, transparent: true, opacity: 0.6 });
-        const ring = new THREE.Line(geo, mat);
-        scene.add(ring);
-        rings.push({ mesh: ring, speed: cfg.speed });
+        scene.add(ringGroup);
+        rings.push({ mesh: ringGroup, speed: cfg.speed });
       });
-
       function animate() {
+        if (activeScenes.has('skills-canvas')) {
+          rings.forEach((r, i) => {
+            r.mesh.rotation.z += r.speed;
+            r.mesh.rotation.x = Math.sin(Date.now() * 0.0005 + i) * 0.5;
+          });
+          renderer.render(scene, camera);
+        }
         requestAnimationFrame(animate);
-        rings.forEach((r, i) => {
-          r.mesh.rotation.z += r.speed;
-          r.mesh.rotation.x = Math.sin(Date.now() * 0.0005 + i) * 0.3;
-        });
-        renderer.render(scene, camera);
       }
       animate();
     })();
 
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 4 — EXPERIENCE: Flowing Particles
-    // ════════════════════════════════════════════════════════════════
+    // EXPERIENCE SCENE
     (function experienceScene() {
       const canvas = document.getElementById('experience-canvas');
       if (!canvas) return;
@@ -2117,43 +1758,36 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
       camera.position.z = 60;
-      
       function resize() { resizeRenderer(renderer, camera, canvas); }
       resize(); window.addEventListener('resize', resize);
-
-      const particleCount = 100;
+      const particleCount = window.innerWidth > 768 ? 150 : 60;
       const geo = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
-      
       for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 60;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+        positions[i * 3] = (Math.random() - 0.5) * 80;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 80;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 80;
       }
-      
       geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const mat = new THREE.PointsMaterial({ color: 0x4f8eff, size: 0.5, transparent: true, opacity: 0.8 });
+      const mat = new THREE.PointsMaterial({ color: 0x4f8eff, size: 0.4, transparent: true, opacity: 0.6 });
       const particles = new THREE.Points(geo, mat);
       scene.add(particles);
-
       function animate() {
-        requestAnimationFrame(animate);
-        particles.rotation.x += 0.0003;
-        particles.rotation.y += 0.0005;
-        const pos = geo.attributes.position.array;
-        for (let i = 0; i < particleCount; i++) {
-          pos[i * 3 + 1] -= 0.1;
-          if (pos[i * 3 + 1] < -30) pos[i * 3 + 1] = 30;
+        if (activeScenes.has('experience-canvas')) {
+          const pos = geo.attributes.position.array;
+          for (let i = 0; i < particleCount; i++) {
+            pos[i * 3 + 1] -= 0.15;
+            if (pos[i * 3 + 1] < -40) pos[i * 3 + 1] = 40;
+          }
+          geo.attributes.position.needsUpdate = true;
+          renderer.render(scene, camera);
         }
-        geo.attributes.position.needsUpdate = true;
-        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
       }
       animate();
     })();
 
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 5 — PROJECTS: Wireframe Spheres
-    // ════════════════════════════════════════════════════════════════
+    // PROJECTS SCENE
     (function projectsScene() {
       const canvas = document.getElementById('projects-canvas');
       if (!canvas) return;
@@ -2161,43 +1795,32 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
       camera.position.z = 80;
-      
       function resize() { resizeRenderer(renderer, camera, canvas); }
       resize(); window.addEventListener('resize', resize);
-
-      const spheres = [];
-      const configs = [
-        { x: -30, y: 10, r: 18, color: 0x4f8eff, speed: 0.003 },
-        { x: 30, y: -8, r: 14, color: 0x00d4aa, speed: 0.005 },
-        { x: 0, y: 0, r: 22, color: 0xa78bfa, speed: 0.002 }
-      ];
-      
-      configs.forEach(c => {
-        const geo = new THREE.SphereGeometry(c.r, 16, 12);
-        const mat = new THREE.MeshBasicMaterial({ color: c.color, wireframe: true, transparent: true, opacity: 0.07 });
+      const group = new THREE.Group();
+      scene.add(group);
+      const geo = new THREE.BoxGeometry(10, 10, 10);
+      const mat = new THREE.MeshBasicMaterial({ color: 0x4f8eff, wireframe: true, transparent: true, opacity: 0.1 });
+      for(let i=0; i<5; i++) {
         const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(c.x, c.y, 0);
-        scene.add(mesh);
-        spheres.push({ mesh, speed: c.speed });
-      });
-
+        mesh.position.set((Math.random()-0.5)*50, (Math.random()-0.5)*50, (Math.random()-0.5)*50);
+        mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+        group.add(mesh);
+      }
       function animate() {
+        if (activeScenes.has('projects-canvas')) {
+          group.rotation.y += 0.002;
+          camera.position.x += (mouseX * 6 - camera.position.x) * 0.02;
+          camera.position.y += (-mouseY * 3 - camera.position.y) * 0.02;
+          camera.lookAt(scene.position);
+          renderer.render(scene, camera);
+        }
         requestAnimationFrame(animate);
-        spheres.forEach(s => {
-          s.mesh.rotation.y += s.speed;
-          s.mesh.rotation.x += s.speed * 0.5;
-        });
-        camera.position.x += (mouseX * 6 - camera.position.x) * 0.02;
-        camera.position.y += (-mouseY * 3 - camera.position.y) * 0.02;
-        camera.lookAt(scene.position);
-        renderer.render(scene, camera);
       }
       animate();
     })();
 
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 6 — CERTS: Star Field
-    // ════════════════════════════════════════════════════════════════
+    // CERTS SCENE
     (function certsScene() {
       const canvas = document.getElementById('certs-canvas');
       if (!canvas) return;
@@ -2205,266 +1828,30 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
       camera.position.z = 100;
-      
       function resize() { resizeRenderer(renderer, camera, canvas); }
       resize(); window.addEventListener('resize', resize);
-
-      const starCount = 200;
+      const starCount = window.innerWidth > 768 ? 300 : 100;
       const geo = new THREE.BufferGeometry();
       const positions = new Float32Array(starCount * 3);
-      
       for (let i = 0; i < starCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 200;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
+        positions[i * 3] = (Math.random() - 0.5) * 250;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 250;
       }
-      
       geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const mat = new THREE.PointsMaterial({ color: 0x00d4aa, size: 0.8, transparent: true, opacity: 0.6 });
+      const mat = new THREE.PointsMaterial({ color: 0x00d4aa, size: 0.6, transparent: true, opacity: 0.5 });
       const stars = new THREE.Points(geo, mat);
       scene.add(stars);
-
       function animate() {
-        requestAnimationFrame(animate);
-        stars.rotation.x += 0.0001;
-        stars.rotation.y += 0.0002;
-        renderer.render(scene, camera);
-      }
-      animate();
-    })();
-
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 7 — EDUCATION: Cube Lattice
-    // ════════════════════════════════════════════════════════════════
-    (function eduScene() {
-      const canvas = document.getElementById('edu-canvas');
-      if (!canvas) return;
-      const renderer = makeRenderer(canvas);
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
-      camera.position.z = 70;
-      
-      function resize() { resizeRenderer(renderer, camera, canvas); }
-      resize(); window.addEventListener('resize', resize);
-
-      const group = new THREE.Group();
-      scene.add(group);
-      const geo = new THREE.BoxGeometry(3.5, 3.5, 3.5);
-      const cubes = [];
-      
-      for (let x = -2; x <= 2; x++) {
-        for (let y = -1; y <= 1; y++) {
-          const mat = new THREE.MeshBasicMaterial({ color: 0x4f8eff, wireframe: true, transparent: true, opacity: 0.08 + Math.random() * 0.08 });
-          const mesh = new THREE.Mesh(geo, mat);
-          mesh.position.set(x * 9, y * 9, (Math.random() - 0.5) * 20);
-          mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-          group.add(mesh);
-          cubes.push({ mesh, ry: (Math.random() - 0.5) * 0.006, rx: (Math.random() - 0.5) * 0.004 });
+        if (activeScenes.has('certs-canvas')) {
+          stars.rotation.x += 0.0001;
+          stars.rotation.y += 0.0002;
+          renderer.render(scene, camera);
         }
-      }
-
-      function animate() {
         requestAnimationFrame(animate);
-        cubes.forEach(c => {
-          c.mesh.rotation.y += c.ry;
-          c.mesh.rotation.x += c.rx;
-        });
-        group.rotation.y += 0.0006;
-        camera.position.x += (mouseX * 4 - camera.position.x) * 0.02;
-        camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
-        camera.lookAt(scene.position);
-        renderer.render(scene, camera);
       }
       animate();
     })();
-
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 8 — COMPETENCIES: Wave Grid
-    // ════════════════════════════════════════════════════════════════
-    (function compScene() {
-      const canvas = document.getElementById('comp-canvas');
-      if (!canvas) return;
-      const renderer = makeRenderer(canvas);
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
-      camera.position.z = 80;
-      
-      function resize() { resizeRenderer(renderer, camera, canvas); }
-      resize(); window.addEventListener('resize', resize);
-
-      const gridSize = 10;
-      const spacing = 4;
-      const group = new THREE.Group();
-      scene.add(group);
-      
-      const positions = [];
-      for (let x = 0; x < gridSize; x++) {
-        for (let z = 0; z < gridSize; z++) {
-          const px = (x - gridSize / 2) * spacing;
-          const pz = (z - gridSize / 2) * spacing;
-          positions.push({ x: px, z: pz, oy: 0 });
-        }
-      }
-
-      const geo = new THREE.SphereGeometry(0.5, 8, 8);
-      const mat = new THREE.MeshBasicMaterial({ color: 0x00d4aa, wireframe: true, transparent: true, opacity: 0.5 });
-      
-      positions.forEach(p => {
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(p.x, 0, p.z);
-        group.add(mesh);
-      });
-
-      function animate() {
-        requestAnimationFrame(animate);
-        const time = Date.now() * 0.001;
-        group.children.forEach((mesh, i) => {
-          const pos = positions[i];
-          const wave = Math.sin(pos.x * 0.1 + time) * Math.cos(pos.z * 0.1 + time) * 5;
-          mesh.position.y = wave;
-        });
-        group.rotation.y += 0.0005;
-        renderer.render(scene, camera);
-      }
-      animate();
-    })();
-
-    // ════════════════════════════════════════════════════════════════
-    // SCENE 9 — CONTACT: Floating Particles
-    // ════════════════════════════════════════════════════════════════
-    (function contactScene() {
-      const canvas = document.getElementById('contact-canvas');
-      if (!canvas) return;
-      const renderer = makeRenderer(canvas);
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
-      camera.position.z = 100;
-      
-      function resize() { resizeRenderer(renderer, camera, canvas); }
-      resize(); window.addEventListener('resize', resize);
-
-      const particleCount = 150;
-      const geo = new THREE.BufferGeometry();
-      const positions = new Float32Array(particleCount * 3);
-      
-      for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 150;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 150;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 150;
-      }
-      
-      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const mat = new THREE.PointsMaterial({ color: 0xa78bfa, size: 1, transparent: true, opacity: 0.7 });
-      const particles = new THREE.Points(geo, mat);
-      scene.add(particles);
-
-      function animate() {
-        requestAnimationFrame(animate);
-        particles.rotation.x += 0.0002;
-        particles.rotation.y += 0.0003;
-        camera.position.x += (mouseX * 8 - camera.position.x) * 0.02;
-        camera.position.y += (-mouseY * 8 - camera.position.y) * 0.02;
-        camera.lookAt(scene.position);
-        renderer.render(scene, camera);
-      }
-      animate();
-    })();
-
-    // ════════════════════════════════════════════════════════════════
-    // ADMIN PANEL FUNCTIONS
-    // ════════════════════════════════════════════════════════════════
-
-    const ADMIN_PASSWORD = 'admin123';
-
-    function openAdmin() {
-      document.getElementById('admin-overlay').style.display = 'block';
-      document.getElementById('login-screen').style.display = 'block';
-      document.getElementById('dashboard').style.display = 'none';
-    }
-
-    function closeAdmin() {
-      document.getElementById('admin-overlay').style.display = 'none';
-      document.getElementById('login-err').style.display = 'none';
-    }
-
-    function login() {
-      const pwd = document.getElementById('pwd-input').value;
-      if (pwd === ADMIN_PASSWORD) {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        document.getElementById('pwd-input').value = '';
-      } else {
-        document.getElementById('login-err').style.display = 'block';
-        setTimeout(() => {
-          document.getElementById('login-err').style.display = 'none';
-        }, 3000);
-      }
-    }
-
-    function logout() {
-      document.getElementById('login-screen').style.display = 'block';
-      document.getElementById('dashboard').style.display = 'none';
-      document.getElementById('pwd-input').value = '';
-    }
-
-    function showPanel(panelId) {
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.getElementById('panel-' + panelId).classList.add('active');
-      
-      document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
-      event.target.closest('.sidebar-item').classList.add('active');
-    }
-
-    function saveHero() {
-      const first = document.getElementById('h-first').value;
-      const last = document.getElementById('h-last').value;
-      alert(`✅ Hero section updated!\n\nName: ${first} ${last}\n\nRefresh the page to see changes.`);
-    }
-
-    function saveAbout() {
-      alert('✅ About section updated!\nRefresh the page to see changes.');
-    }
-
-    function saveSkills() {
-      alert('✅ Skills refreshed!');
-    }
-
-    function saveExp() {
-      alert('✅ Experience updated!');
-    }
-
-    function saveProjects() {
-      alert('✅ Projects updated!');
-    }
-
-    function saveCerts() {
-      alert('✅ Certifications updated!');
-    }
-
-    function saveContact() {
-      const email = document.getElementById('contact-email').value;
-      alert(`✅ Contact info updated!\n\nEmail: ${email}`);
-    }
-
-    // ════════════════════════════════════════════════════════════════
-    // SCROLL ANIMATIONS
-    // ════════════════════════════════════════════════════════════════
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(el => {
-        if (el.isIntersecting) {
-          el.target.style.opacity = '1';
-          el.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.skill-card, .cert-card, .comp-item, .project-card, .timeline-item').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      observer.observe(el);
-    });
   </script>
-
 </body>
 </html>
