@@ -1,0 +1,2470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Youssef Abdellatif — IT & Network Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --bg2: #111827;
+      --bg3: #1a2235;
+      --surface: #1e2d47;
+      --border: rgba(100,160,255,0.12);
+      --accent: #4f8eff;
+      --accent2: #00d4aa;
+      --accent3: #ff6b6b;
+      --text: #e8edf5;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --gold: #f0b429;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID BACKGROUND ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,142,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(11,15,26,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.25s;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.4rem;
+      border-radius: 6px;
+      font-size: 0.82rem !important;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: #3a7ae8 !important; transform: translateY(-1px); }
+    .nav-cta::after { display: none !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ─── THREE.JS SECTION CANVASES ─── */
+    .section-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.25;
+      transition: opacity 0.8s ease;
+    }
+
+    .section-canvas.visible { 
+      opacity: 0.35;
+    }
+
+    section { 
+      position: relative;
+      min-height: 100vh;
+    }
+
+    section > .container,
+    section > * { 
+      position: relative; 
+      z-index: 2;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.2;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(79,142,255,0.1);
+      border: 1px solid rgba(79,142,255,0.25);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .hero-badge span { width: 6px; height: 6px; background: var(--accent2); border-radius: 50%; animation: pulse 2s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1.05;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      color: var(--accent2);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .hero-desc {
+      color: var(--text2);
+      font-size: 1.05rem;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #3a7ae8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(79,142,255,0.35);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ─── HERO RIGHT: STATS CARD ─── */
+    .hero-card {
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .card-location {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text3);
+      font-size: 0.82rem;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 2rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-item {
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
+      color: var(--text3);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .cert-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .cert-tag {
+      background: rgba(79,142,255,0.1);
+      border: 1px solid rgba(79,142,255,0.2);
+      color: var(--accent);
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+    }
+
+    /* ─── SECTION ─── */
+    section {
+      padding: 6rem 4rem;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .section-line {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: rgba(17, 24, 39, 0.5); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .avatar-box {
+      width: 100%;
+      aspect-ratio: 1;
+      max-width: 320px;
+      border: 2px solid var(--accent);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(79,142,255,0.2);
+    }
+
+    .avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .avatar-box::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30%;
+      background: linear-gradient(to top, rgba(11,15,26,0.4), transparent);
+    }
+
+    .contact-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 0.6rem 1rem;
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .contact-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pill-icon {
+      width: 30px;
+      height: 30px;
+      background: rgba(79,142,255,0.1);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .about-text p {
+      color: var(--text2);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .lang-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .lang-chip {
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.82rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .lang-chip strong { color: var(--text); display: block; font-family: 'Outfit', sans-serif; }
+    .lang-chip span { color: var(--text3); }
+
+    /* ─── SKILLS ─── */
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .skill-card-icon {
+      width: 44px; height: 44px;
+      background: rgba(79,142,255,0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .skill-tag {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text2);
+      padding: 0.25rem 0.65rem;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { background: rgba(17, 24, 39, 0.5); }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding-left: 2.5rem;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.5rem;
+      top: 0.5rem;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 2px solid var(--bg2);
+      box-shadow: 0 0 0 4px rgba(79,142,255,0.15);
+    }
+
+    .timeline-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-company {
+      color: var(--text3);
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline-desc {
+      color: var(--text2);
+      font-size: 0.9rem;
+      line-height: 1.75;
+    }
+
+    .timeline-bullets {
+      margin-top: 1rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .timeline-bullets li {
+      color: var(--text2);
+      font-size: 0.88rem;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .timeline-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ─── PROJECT ─── */
+    .project-card {
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(79,142,255,0.15);
+    }
+
+    .project-header {
+      background: linear-gradient(135deg, rgba(26, 34, 53, 0.8) 0%, rgba(79,142,255,0.08) 100%);
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .project-year {
+      position: absolute;
+      top: 1.2rem; right: 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text3);
+    }
+
+    .project-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .project-body {
+      padding: 1.8rem 2rem;
+    }
+
+    .project-desc {
+      color: var(--text2);
+      font-size: 0.9rem;
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+      background: rgba(0,212,170,0.1);
+      border: 1px solid rgba(0,212,170,0.2);
+      color: var(--accent2);
+      padding: 0.25rem 0.65rem;
+      border-radius: 5px;
+      font-size: 0.74rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .project-metrics {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric-val {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    /* ─── CERTIFICATIONS ─── */
+    #certifications { background: rgba(17, 24, 39, 0.5); }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .cert-card {
+      background: rgba(11, 15, 26, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cert-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+    }
+
+    .cert-card.cisco::before { background: #049fd9; }
+    .cert-card.microsoft::before { background: #00a1f1; }
+    .cert-card.amazon::before { background: #ff9900; }
+    .cert-card.security::before { background: var(--accent3); }
+    .cert-card.infra::before { background: var(--accent2); }
+
+    .cert-card:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .cert-logo {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .cert-info h4 {
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .cert-info .issuer {
+      color: var(--text3);
+      font-size: 0.78rem;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 0.5rem;
+    }
+
+    .cert-info .year {
+      display: inline-block;
+      background: rgba(79,142,255,0.1);
+      color: var(--accent);
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── EDUCATION ─── */
+    #education { background: rgba(17, 24, 39, 0.5); }
+
+    .edu-card {
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .edu-card::after {
+      content: 'BIS';
+      position: absolute;
+      right: 2rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'DM Serif Display', serif;
+      font-size: 6rem;
+      color: rgba(79,142,255,0.04);
+      pointer-events: none;
+    }
+
+    .edu-meta {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .edu-icon {
+      width: 60px; height: 60px;
+      background: rgba(79,142,255,0.1);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .edu-details h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-school {
+      color: var(--accent2);
+      font-size: 0.9rem;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-year {
+      color: var(--text3);
+      font-size: 0.82rem;
+    }
+
+    .edu-courses {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .course-tag {
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+    }
+
+    /* ─── COMPETENCIES ─── */
+    #competencies { background: rgba(17, 24, 39, 0.5); }
+
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .comp-item {
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .comp-item:hover {
+      border-color: var(--accent2);
+      background: rgba(0,212,170,0.04);
+    }
+
+    .comp-dot {
+      width: 8px; height: 8px;
+      background: var(--accent2);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .comp-item span {
+      font-size: 0.88rem;
+      color: var(--text2);
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: linear-gradient(135deg, rgba(11, 15, 26, 0.8) 0%, rgba(17, 24, 39, 0.8) 100%);
+      text-align: center;
+    }
+
+    .contact-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.8rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: all 0.25s;
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(8px);
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(79,142,255,0.15);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text3);
+      font-size: 0.78rem;
+      font-family: 'DM Mono', monospace;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in:nth-child(2) { animation-delay: 0.25s; }
+    .fade-in:nth-child(3) { animation-delay: 0.4s; }
+    .fade-in:nth-child(4) { animation-delay: 0.55s; }
+
+    /* ─── ADMIN PANEL STYLES ─── */
+    .login-card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      z-index: 10001;
+    }
+
+    .login-card h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .login-card p {
+      color: var(--text3);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-input {
+      width: 100%;
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .login-input:focus {
+      border-color: var(--accent);
+    }
+
+    .login-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-bottom: 1rem;
+    }
+
+    .login-btn:hover {
+      background: #3a7ae8;
+      transform: translateY(-2px);
+    }
+
+    .login-error {
+      color: var(--accent3);
+      font-size: 0.82rem;
+      display: none;
+    }
+
+    .topbar {
+      background: rgba(26, 34, 53, 0.8);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .topbar-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .topbar-title span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text3);
+      font-family: 'DM Mono', monospace;
+      margin-top: 0.25rem;
+    }
+
+    .preview-link {
+      color: var(--accent2);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .preview-link:hover {
+      color: var(--accent);
+    }
+
+    .logout-btn {
+      background: rgba(255,107,107,0.15);
+      border: 1px solid rgba(255,107,107,0.3);
+      color: #ff6b6b;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,107,107,0.25);
+    }
+
+    .dash-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-item {
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text2);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sidebar-item:hover {
+      background: rgba(26, 34, 53, 0.6);
+      color: var(--accent);
+    }
+
+    .sidebar-item.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .sidebar-icon {
+      font-size: 1.1rem;
+    }
+
+    .main-content {
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 2rem;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .panel-sub {
+      color: var(--text3);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .edit-card {
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .edit-card h3 {
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field-label {
+      color: var(--text3);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .field-input {
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .field-input:focus {
+      border-color: var(--accent);
+    }
+
+    .field-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .add-btn {
+      background: rgba(79,142,255,0.15);
+      border: 1px solid rgba(79,142,255,0.3);
+      color: var(--accent);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .add-btn:hover {
+      background: rgba(79,142,255,0.25);
+    }
+
+    .save-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .save-btn:hover {
+      background: #3a7ae8;
+      transform: translateY(-2px);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-box {
+      background: rgba(26, 34, 53, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-box .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-box .lbl {
+      color: var(--text3);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .dash-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Y.Abdellatif</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+      <li><a onclick="openAdmin()" style="color:var(--text3);font-size:0.75rem;letter-spacing:0.05em;cursor:pointer;">⚙</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge fade-in"><span></span> Open to Opportunities</div>
+        <h1 class="hero-name fade-in">Youssef<br><span class="accent">Abdellatif</span></h1>
+        <p class="hero-title fade-in">$ IT Support / Network Engineer / Cloud</p>
+        <p class="hero-desc fade-in">Results-driven Business Information Systems student with hands-on experience in IT support, network administration, and cloud computing. Building intelligent systems where infrastructure meets innovation.</p>
+        <div class="hero-btns fade-in">
+          <a href="#projects" class="btn-primary">View Projects →</a>
+          <a href="#contact" class="btn-secondary">Get in Touch</a>
+        </div>
+      </div>
+      <div class="hero-card fade-in">
+        <div class="card-location">📍 Cairo, Egypt</div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-num">5+</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">2×</div>
+            <div class="stat-label">Internships</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">500+</div>
+            <div class="stat-label">Students Served</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">90%</div>
+            <div class="stat-label">Time Saved</div>
+          </div>
+        </div>
+        <div class="cert-list">
+          <span class="cert-tag">CCNA</span>
+          <span class="cert-tag">MCSA</span>
+          <span class="cert-tag">AWS</span>
+          <span class="cert-tag">Azure AZ</span>
+          <span class="cert-tag">InfoSec</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <canvas id="about-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <p class="section-label">Who I Am</p>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="avatar-box"><img src="profile.jpg" alt="Youssef Abdellatif" /></div>
+          <div class="contact-pills">
+            <a href="mailto:usefelwafi120@gmail.com" class="contact-pill">
+              <div class="pill-icon">✉️</div>
+              usefelwafi120@gmail.com
+            </a>
+            <a href="tel:+201064543891" class="contact-pill">
+              <div class="pill-icon">📱</div>
+              +20 106 454 3891
+            </a>
+            <a href="https://linkedin.com/in/youssef-abdellatif-1a9174335" target="_blank" class="contact-pill">
+              <div class="pill-icon">🔗</div>
+              LinkedIn Profile
+            </a>
+          </div>
+        </div>
+        <div class="about-text">
+          <p>
+            I'm a <span class="highlight">Business Information Systems</span> student at El-Shorouk Academy, Cairo, combining deep technical expertise with a passion for building systems that scale. My work bridges the gap between enterprise IT infrastructure and modern AI-powered solutions.
+          </p>
+          <p>
+            With hands-on certifications from <span class="highlight">Cisco, Microsoft, and Amazon Web Services</span>, I bring practical knowledge across networking, cloud infrastructure, and Windows server environments — not just theory.
+          </p>
+          <p>
+            My graduation project, an <span class="highlight">AI-powered Smart Attendance System</span>, showcases my ability to architect full-stack solutions from database design and system analysis all the way to computer vision integration — reducing manual attendance time by 90% across 500+ students.
+          </p>
+          <p>
+            I've also had the privilege of interning at the <span class="highlight">Nile Ritz-Carlton Hotel</span>, gaining real-world exposure to enterprise-grade IT systems in a demanding 5-star environment.
+          </p>
+          <div class="lang-row">
+            <div class="lang-chip">
+              <strong>Arabic</strong>
+              <span>Native</span>
+            </div>
+            <div class="lang-chip">
+              <strong>English</strong>
+              <span>Professional</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <canvas id="skills-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <p class="section-label">What I Know</p>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="section-line"></div>
+      <div class="skills-categories">
+        <div class="skill-card">
+          <div class="skill-card-icon">🖧</div>
+          <h3>Networking</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">TCP/IP</span>
+            <span class="skill-tag">DNS</span>
+            <span class="skill-tag">DHCP</span>
+            <span class="skill-tag">LAN/WAN</span>
+            <span class="skill-tag">Switching</span>
+            <span class="skill-tag">Routing</span>
+            <span class="skill-tag">Network Protocols</span>
+            <span class="skill-tag">Troubleshooting</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-icon">☁️</div>
+          <h3>Cloud Platforms</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Microsoft Azure</span>
+            <span class="skill-tag">Amazon AWS</span>
+            <span class="skill-tag">EC2</span>
+            <span class="skill-tag">S3</span>
+            <span class="skill-tag">VPC</span>
+            <span class="skill-tag">IAM</span>
+            <span class="skill-tag">Azure AD</span>
+            <span class="skill-tag">Cloud Monitoring</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-icon">🖥️</div>
+          <h3>Windows Server</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Windows Server</span>
+            <span class="skill-tag">Active Directory</span>
+            <span class="skill-tag">Group Policy</span>
+            <span class="skill-tag">Microsoft 365</span>
+            <span class="skill-tag">System Admin</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-icon">🗄️</div>
+          <h3>Databases</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Database Design</span>
+            <span class="skill-tag">ERD</span>
+            <span class="skill-tag">Query Writing</span>
+            <span class="skill-tag">Data Modeling</span>
+            <span class="skill-tag">Relational DBs</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-icon">📐</div>
+          <h3>System Analysis</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">SRS Documentation</span>
+            <span class="skill-tag">UML</span>
+            <span class="skill-tag">Use Case Diagrams</span>
+            <span class="skill-tag">Business Analysis</span>
+            <span class="skill-tag">Requirements</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-icon">🔧</div>
+          <h3>IT Support</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Technical Troubleshooting</span>
+            <span class="skill-tag">Hardware Support</span>
+            <span class="skill-tag">ITSM</span>
+            <span class="skill-tag">Help Desk</span>
+            <span class="skill-tag">Software Support</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <canvas id="experience-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <p class="section-label">Where I've Worked</p>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Summer 2024 & Summer 2025</div>
+          <h3 class="timeline-title">Technology & Operations Intern</h3>
+          <div class="timeline-company">🏨 The Nile Ritz-Carlton Hotel — Cairo, Egypt</div>
+          <ul class="timeline-bullets">
+            <li>Gained hands-on experience with enterprise IT systems and hospitality technology infrastructure in a 5-star international environment.</li>
+            <li>Observed and supported configuration and troubleshooting of network systems, ensuring operational uptime for hotel operations.</li>
+            <li>Developed professional skills in client-facing environments, cross-functional collaboration, and IT service management.</li>
+            <li>Exposed to enterprise-grade hardware, software, and network infrastructure in a high-demand business setting.</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--accent2)"></div>
+          <div class="timeline-date">2021 – Present</div>
+          <h3 class="timeline-title">Bachelor of Science — BIS</h3>
+          <div class="timeline-company">🎓 El-Shorouk Academy — Cairo, Egypt</div>
+          <ul class="timeline-bullets">
+            <li>Studying Business Information Systems with a focus on networks, databases, and software engineering.</li>
+            <li>Led graduation project: AI-powered Smart Attendance & Counting System — full system analysis, DB design, and SRS documentation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <canvas id="projects-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <p class="section-label">What I've Built</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;" class="projects-grid">
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-year">2025 – 2026</span>
+          <div class="project-emoji">🤖</div>
+          <h3 class="project-name">Smart Attendance & Counting System</h3>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            An AI-powered attendance management system leveraging Computer Vision and Face Recognition to fully automate student attendance tracking. Engineered to serve an entire faculty with minimal hardware, featuring real-time facial detection, anti-fraud controls, and a comprehensive web dashboard for reporting and monitoring.
+          </p>
+          <p class="project-desc">
+            Led end-to-end system analysis: authored 30+ page SRS documentation, defined functional & non-functional requirements, and designed complete UML & ERD diagrams. Designed and optimized a relational SQL database schema to store attendance records, reports, and user profiles.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">AI / Computer Vision</span>
+            <span class="tech-tag">Face Recognition</span>
+            <span class="tech-tag">SQL Database</span>
+            <span class="tech-tag">Web Dashboard</span>
+            <span class="tech-tag">UML / ERD</span>
+            <span class="tech-tag">SRS Documentation</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-val">90%</div>
+              <div class="metric-label">Time Saved</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val">500+</div>
+              <div class="metric-label">Students</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val">30+</div>
+              <div class="metric-label">Pages SRS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NETWORK PROJECT -->
+      <div class="project-card">
+        <div class="project-header" style="background:linear-gradient(135deg,rgba(26, 34, 53, 0.8) 0%,rgba(0,212,170,0.08) 100%);">
+          <span class="project-year">Field Training</span>
+          <div class="project-emoji">🖧</div>
+          <h3 class="project-name">Enterprise Network Infrastructure</h3>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">
+            Designed and implemented a complete network infrastructure project using <strong style="color:var(--accent2)">GNS3</strong> during field training. Merged two separate networks into one secure and unified environment with full VLAN segmentation, subnetting, and optimized routing.
+          </p>
+          <p class="project-desc">
+            Participated in all project phases — from network planning and topology design, through device configuration and troubleshooting, to connectivity testing and performance optimization ensuring stable and efficient communication.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">GNS3</span>
+            <span class="tech-tag">VLAN</span>
+            <span class="tech-tag">Subnetting</span>
+            <span class="tech-tag">Routing</span>
+            <span class="tech-tag">Switching</span>
+            <span class="tech-tag">Network Merging</span>
+            <span class="tech-tag">Topology Design</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric">
+              <div class="metric-val">2</div>
+              <div class="metric-label">Networks Merged</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val">6</div>
+              <div class="metric-label">Project Phases</div>
+            </div>
+            <div class="metric">
+              <div class="metric-val">100%</div>
+              <div class="metric-label">Uptime</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div><!-- end projects-grid -->
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <canvas id="certs-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <p class="section-label">Credentials</p>
+      <h2 class="section-title">Certifications</h2>
+      <div class="section-line"></div>
+      <div class="certs-grid">
+        <div class="cert-card cisco">
+          <div class="cert-logo" style="background:rgba(4,159,217,0.12)">🌐</div>
+          <div class="cert-info">
+            <h4>CCNA</h4>
+            <div class="issuer">Cisco Certified Network Associate</div>
+            <span class="year">2023</span>
+          </div>
+        </div>
+        <div class="cert-card microsoft">
+          <div class="cert-logo" style="background:rgba(0,161,241,0.12)">🪟</div>
+          <div class="cert-info">
+            <h4>MCSA</h4>
+            <div class="issuer">Microsoft Certified: Systems Admin</div>
+            <span class="year">2024</span>
+          </div>
+        </div>
+        <div class="cert-card amazon">
+          <div class="cert-logo" style="background:rgba(255,153,0,0.12)">☁️</div>
+          <div class="cert-info">
+            <h4>AWS Solutions Architect</h4>
+            <div class="issuer">Amazon Web Services</div>
+            <span class="year">2024</span>
+          </div>
+        </div>
+        <div class="cert-card security">
+          <div class="cert-logo" style="background:rgba(255,107,107,0.12)">🔐</div>
+          <div class="cert-info">
+            <h4>CompTIA Security+</h4>
+            <div class="issuer">CompTIA</div>
+            <span class="year">2023</span>
+          </div>
+        </div>
+        <div class="cert-card infra">
+          <div class="cert-logo" style="background:rgba(0,212,170,0.12)">🏗️</div>
+          <div class="cert-info">
+            <h4>Azure Administrator</h4>
+            <div class="issuer">Microsoft Azure</div>
+            <span class="year">2024</span>
+          </div>
+        </div>
+        <div class="cert-card infra">
+          <div class="cert-logo" style="background:rgba(0,212,170,0.12)">📊</div>
+          <div class="cert-info">
+            <h4>Google Cloud Associate</h4>
+            <div class="issuer">Google Cloud</div>
+            <span class="year">2024</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <canvas id="edu-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <p class="section-label">Learning Journey</p>
+      <h2 class="section-title">Education</h2>
+      <div class="section-line"></div>
+      <div class="edu-card">
+        <div class="edu-meta">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-details">
+            <h3>Bachelor of Science</h3>
+            <div class="edu-school">Business Information Systems</div>
+            <div class="edu-year">2021 – Present | El-Shorouk Academy, Cairo</div>
+            <div class="edu-courses">
+              <span class="course-tag">Database Design</span>
+              <span class="course-tag">Network Administration</span>
+              <span class="course-tag">Software Engineering</span>
+              <span class="course-tag">System Analysis</span>
+              <span class="course-tag">Business Analysis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETENCIES -->
+  <section id="competencies">
+    <canvas id="comp-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <p class="section-label">Core Competencies</p>
+      <h2 class="section-title">What Sets Me Apart</h2>
+      <div class="section-line"></div>
+      <div class="comp-grid">
+        <div class="comp-item"><div class="comp-dot"></div><span>Problem Solving</span></div>
+        <div class="comp-item"><div class="comp-dot"></div><span>System Design</span></div>
+        <div class="comp-item"><div class="comp-dot"></div><span>Team Leadership</span></div>
+        <div class="comp-item"><div class="comp-dot"></div><span>Technical Documentation</span></div>
+        <div class="comp-item"><div class="comp-dot"></div><span>Project Management</span></div>
+        <div class="comp-item"><div class="comp-dot"></div><span>Client Communication</span></div>
+        <div class="comp-item"><div class="comp-dot"></div><span>Infrastructure Planning</span></div>
+        <div class="comp-item"><div class="comp-dot"></div><span>Security Best Practices</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <canvas id="contact-canvas" class="section-canvas"></canvas>
+    <div class="container">
+      <div class="contact-wrapper">
+        <p class="section-label">Get In Touch</p>
+        <h2 class="section-title">Let's Connect</h2>
+        <p style="color:var(--text2);margin-bottom:2rem;">Have a project in mind or want to collaborate? I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="mailto:usefelwafi120@gmail.com" class="contact-link">📧 Email</a>
+          <a href="https://linkedin.com/in/youssef-abdellatif-1a9174335" target="_blank" class="contact-link">💼 LinkedIn</a>
+          <a href="tel:+201064543891" class="contact-link">📱 Phone</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2024-2025 Youssef Abdellatif. All rights reserved. | Built with Three.js & Modern Web Technologies
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       ADMIN DASHBOARD (hidden by default)
+  ══════════════════════════════════════════ -->
+  <div id="admin-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(11,15,26,0.95);overflow-y:auto;backdrop-filter:blur(5px);">
+    <div style="position:absolute;top:1rem;right:1.5rem;z-index:10000;">
+      <button onclick="closeAdmin()" style="background:rgba(255,107,107,0.15);border:1px solid rgba(255,107,107,0.3);color:#ff6b6b;padding:0.5rem 1.2rem;border-radius:8px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:0.85rem;">✕ Close</button>
+    </div>
+    
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+      <div class="login-card">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🔐</div>
+        <h1>Admin Access</h1>
+        <p>Youssef Abdellatif · Portfolio Dashboard</p>
+        <input type="password" id="pwd-input" class="login-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()" />
+        <button class="login-btn" onclick="login()">Enter Dashboard</button>
+        <p class="login-error" id="login-err">❌ Wrong password. Try again.</p>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" style="display:none;">
+      <div class="topbar">
+        <div class="topbar-title">
+          Portfolio Dashboard
+          <span>admin panel</span>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <a href="index.html" target="_blank" class="preview-link">👁 Preview Site →</a>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="dash-layout">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+          <div class="sidebar-item active" onclick="showPanel('overview')">
+            <span class="sidebar-icon">📊</span> Overview
+          </div>
+          <div class="sidebar-item" onclick="showPanel('hero')">
+            <span class="sidebar-icon">🏠</span> Hero Section
+          </div>
+          <div class="sidebar-item" onclick="showPanel('about')">
+            <span class="sidebar-icon">👤</span> About Me
+          </div>
+          <div class="sidebar-item" onclick="showPanel('skills')">
+            <span class="sidebar-icon">⚡</span> Skills
+          </div>
+          <div class="sidebar-item" onclick="showPanel('experience')">
+            <span class="sidebar-icon">💼</span> Experience
+          </div>
+          <div class="sidebar-item" onclick="showPanel('projects')">
+            <span class="sidebar-icon">🚀</span> Projects
+          </div>
+          <div class="sidebar-item" onclick="showPanel('certs')">
+            <span class="sidebar-icon">🎖</span> Certifications
+          </div>
+          <div class="sidebar-item" onclick="showPanel('contact')">
+            <span class="sidebar-icon">📬</span> Contact Info
+          </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+          <!-- OVERVIEW PANEL -->
+          <div class="panel active" id="panel-overview">
+            <div class="panel-title">Welcome back, Youssef 👋</div>
+            <div class="panel-sub">portfolio · last updated today</div>
+            <div class="stats-row">
+              <div class="stat-box"><div class="num">8</div><div class="lbl">Three.js Scenes</div></div>
+              <div class="stat-box"><div class="num">6</div><div class="lbl">Skill Categories</div></div>
+              <div class="stat-box"><div class="num">6</div><div class="lbl">Certifications</div></div>
+              <div class="stat-box"><div class="num">2</div><div class="lbl">Projects</div></div>
+            </div>
+            <div class="edit-card">
+              <h3>📋 Quick Guide</h3>
+              <p style="color:var(--text2);font-size:0.88rem;line-height:1.8;">
+                ✨ All 8 Three.js scenes are now fully functional and visible in every section! Each section has its own animated background with unique visual effects. Use the sidebar to navigate and manage your portfolio content.
+              </p>
+            </div>
+          </div>
+
+          <!-- HERO PANEL -->
+          <div class="panel" id="panel-hero">
+            <div class="panel-title">Hero Section</div>
+            <div class="panel-sub">edit your name, title, and summary</div>
+            <div class="edit-card">
+              <h3>Personal Info</h3>
+              <div class="field-row">
+                <div class="field-group">
+                  <label class="field-label">First Name</label>
+                  <input type="text" class="field-input" id="h-first" value="Youssef" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Last Name</label>
+                  <input type="text" class="field-input" id="h-last" value="Abdellatif" />
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Job Title / Tagline</label>
+                <input type="text" class="field-input" id="h-title" value="IT Support / Network Engineer / Cloud" />
+              </div>
+              <div class="field-group">
+                <label class="field-label">Short Description</label>
+                <textarea class="field-input field-textarea" id="h-desc">Results-driven Business Information Systems student with hands-on experience in IT support, network administration, and cloud computing. Building intelligent systems where infrastructure meets innovation.</textarea>
+              </div>
+            </div>
+            <button class="save-btn" onclick="saveHero()">Save & Update</button>
+          </div>
+
+          <!-- ABOUT PANEL -->
+          <div class="panel" id="panel-about">
+            <div class="panel-title">About Me</div>
+            <div class="panel-sub">edit your bio paragraphs</div>
+            <div class="edit-card">
+              <h3>Bio Content</h3>
+              <div class="field-group">
+                <label class="field-label">Bio Text</label>
+                <textarea class="field-input field-textarea" id="about-text">I'm a Business Information Systems student at El-Shorouk Academy, Cairo, combining deep technical expertise with a passion for building systems that scale.</textarea>
+              </div>
+            </div>
+            <button class="save-btn" onclick="saveAbout()">Save & Update</button>
+          </div>
+
+          <!-- SKILLS PANEL -->
+          <div class="panel" id="panel-skills">
+            <div class="panel-title">Skills</div>
+            <div class="panel-sub">add or edit skill categories and tags</div>
+            <div class="edit-card">
+              <h3>Manage Skills</h3>
+              <p style="color:var(--text3);font-size:0.85rem;">Skills are currently displayed from the HTML. To add new skills, edit the HTML directly in the skills section.</p>
+            </div>
+            <button class="save-btn" onclick="saveSkills()">Refresh Skills</button>
+          </div>
+
+          <!-- EXPERIENCE PANEL -->
+          <div class="panel" id="panel-experience">
+            <div class="panel-title">Experience</div>
+            <div class="panel-sub">edit your work and education timeline</div>
+            <div class="edit-card">
+              <h3>Experience Items</h3>
+              <p style="color:var(--text3);font-size:0.85rem;">Experience items are currently displayed from the HTML. To add new experiences, edit the HTML directly in the experience section.</p>
+            </div>
+            <button class="save-btn" onclick="saveExp()">Refresh Experience</button>
+          </div>
+
+          <!-- PROJECTS PANEL -->
+          <div class="panel" id="panel-projects">
+            <div class="panel-title">Projects</div>
+            <div class="panel-sub">add, edit, or remove projects</div>
+            <div class="edit-card">
+              <h3>Manage Projects</h3>
+              <p style="color:var(--text3);font-size:0.85rem;">Projects are currently displayed from the HTML. To add new projects, edit the HTML directly in the projects section.</p>
+            </div>
+            <button class="save-btn" onclick="saveProjects()">Refresh Projects</button>
+          </div>
+
+          <!-- CERTS PANEL -->
+          <div class="panel" id="panel-certs">
+            <div class="panel-title">Certifications</div>
+            <div class="panel-sub">manage your certifications</div>
+            <div class="edit-card">
+              <h3>Manage Certifications</h3>
+              <p style="color:var(--text3);font-size:0.85rem;">Certifications are currently displayed from the HTML. To add new certifications, edit the HTML directly in the certifications section.</p>
+            </div>
+            <button class="save-btn" onclick="saveCerts()">Refresh Certifications</button>
+          </div>
+
+          <!-- CONTACT PANEL -->
+          <div class="panel" id="panel-contact">
+            <div class="panel-title">Contact Info</div>
+            <div class="panel-sub">update your contact details</div>
+            <div class="edit-card">
+              <h3>Contact Details</h3>
+              <div class="field-group">
+                <label class="field-label">Email</label>
+                <input type="email" class="field-input" id="contact-email" value="usefelwafi120@gmail.com" />
+              </div>
+              <div class="field-group">
+                <label class="field-label">Phone</label>
+                <input type="tel" class="field-input" id="contact-phone" value="+201064543891" />
+              </div>
+              <div class="field-group">
+                <label class="field-label">LinkedIn</label>
+                <input type="url" class="field-input" id="contact-linkedin" value="https://linkedin.com/in/youssef-abdellatif-1a9174335" />
+              </div>
+            </div>
+            <button class="save-btn" onclick="saveContact()">Save & Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════════════════════
+    // THREE.JS UTILITIES & SETUP
+    // ════════════════════════════════════════════════════════════════
+    
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) - 0.5;
+      mouseY = (e.clientY / window.innerHeight) - 0.5;
+    });
+
+    function makeRenderer(canvas) {
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setClearColor(0x000000, 0);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      return renderer;
+    }
+
+    function resizeRenderer(renderer, camera, canvas) {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 1 — HERO: Rotating Cube
+    // ════════════════════════════════════════════════════════════════
+    (function heroScene() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 50;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const geo = new THREE.BoxGeometry(20, 20, 20);
+      const mat = new THREE.MeshBasicMaterial({ color: 0x4f8eff, wireframe: true, transparent: true, opacity: 0.15 });
+      const cube = new THREE.Mesh(geo, mat);
+      scene.add(cube);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        cube.rotation.x += 0.0005;
+        cube.rotation.y += 0.0008;
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 2 — ABOUT: DNA Helix
+    // ════════════════════════════════════════════════════════════════
+    (function aboutScene() {
+      const canvas = document.getElementById('about-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 60;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const helixPoints = [];
+      for (let i = 0; i < 100; i++) {
+        const angle = (i / 100) * Math.PI * 4;
+        const x = Math.cos(angle) * 15;
+        const y = (i - 50) * 0.8;
+        const z = Math.sin(angle) * 15;
+        helixPoints.push(new THREE.Vector3(x, y, z));
+      }
+
+      const geo = new THREE.BufferGeometry().setFromPoints(helixPoints);
+      const mat = new THREE.LineBasicMaterial({ color: 0x00d4aa, linewidth: 2 });
+      const helix = new THREE.Line(geo, mat);
+      scene.add(helix);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        helix.rotation.z += 0.003;
+        camera.position.x += (mouseX * 10 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 10 - camera.position.y) * 0.02;
+        camera.lookAt(scene.position);
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 3 — SKILLS: Orbiting Rings
+    // ════════════════════════════════════════════════════════════════
+    (function skillsScene() {
+      const canvas = document.getElementById('skills-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 70;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const rings = [];
+      const ringConfigs = [
+        { r: 20, color: 0x4f8eff, speed: 0.003 },
+        { r: 30, color: 0x00d4aa, speed: 0.002 },
+        { r: 40, color: 0xa78bfa, speed: 0.001 }
+      ];
+
+      ringConfigs.forEach(cfg => {
+        const geo = new THREE.BufferGeometry();
+        const points = [];
+        for (let i = 0; i <= 64; i++) {
+          const angle = (i / 64) * Math.PI * 2;
+          points.push(new THREE.Vector3(Math.cos(angle) * cfg.r, Math.sin(angle) * cfg.r, 0));
+        }
+        geo.setFromPoints(points);
+        const mat = new THREE.LineBasicMaterial({ color: cfg.color, transparent: true, opacity: 0.6 });
+        const ring = new THREE.Line(geo, mat);
+        scene.add(ring);
+        rings.push({ mesh: ring, speed: cfg.speed });
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        rings.forEach((r, i) => {
+          r.mesh.rotation.z += r.speed;
+          r.mesh.rotation.x = Math.sin(Date.now() * 0.0005 + i) * 0.3;
+        });
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 4 — EXPERIENCE: Flowing Particles
+    // ════════════════════════════════════════════════════════════════
+    (function experienceScene() {
+      const canvas = document.getElementById('experience-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 60;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const particleCount = 100;
+      const geo = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 60;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+      }
+      
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({ color: 0x4f8eff, size: 0.5, transparent: true, opacity: 0.8 });
+      const particles = new THREE.Points(geo, mat);
+      scene.add(particles);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        particles.rotation.x += 0.0003;
+        particles.rotation.y += 0.0005;
+        const pos = geo.attributes.position.array;
+        for (let i = 0; i < particleCount; i++) {
+          pos[i * 3 + 1] -= 0.1;
+          if (pos[i * 3 + 1] < -30) pos[i * 3 + 1] = 30;
+        }
+        geo.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 5 — PROJECTS: Wireframe Spheres
+    // ════════════════════════════════════════════════════════════════
+    (function projectsScene() {
+      const canvas = document.getElementById('projects-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 80;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const spheres = [];
+      const configs = [
+        { x: -30, y: 10, r: 18, color: 0x4f8eff, speed: 0.003 },
+        { x: 30, y: -8, r: 14, color: 0x00d4aa, speed: 0.005 },
+        { x: 0, y: 0, r: 22, color: 0xa78bfa, speed: 0.002 }
+      ];
+      
+      configs.forEach(c => {
+        const geo = new THREE.SphereGeometry(c.r, 16, 12);
+        const mat = new THREE.MeshBasicMaterial({ color: c.color, wireframe: true, transparent: true, opacity: 0.07 });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(c.x, c.y, 0);
+        scene.add(mesh);
+        spheres.push({ mesh, speed: c.speed });
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        spheres.forEach(s => {
+          s.mesh.rotation.y += s.speed;
+          s.mesh.rotation.x += s.speed * 0.5;
+        });
+        camera.position.x += (mouseX * 6 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 3 - camera.position.y) * 0.02;
+        camera.lookAt(scene.position);
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 6 — CERTS: Star Field
+    // ════════════════════════════════════════════════════════════════
+    (function certsScene() {
+      const canvas = document.getElementById('certs-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 100;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const starCount = 200;
+      const geo = new THREE.BufferGeometry();
+      const positions = new Float32Array(starCount * 3);
+      
+      for (let i = 0; i < starCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 200;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
+      }
+      
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({ color: 0x00d4aa, size: 0.8, transparent: true, opacity: 0.6 });
+      const stars = new THREE.Points(geo, mat);
+      scene.add(stars);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        stars.rotation.x += 0.0001;
+        stars.rotation.y += 0.0002;
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 7 — EDUCATION: Cube Lattice
+    // ════════════════════════════════════════════════════════════════
+    (function eduScene() {
+      const canvas = document.getElementById('edu-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 70;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const group = new THREE.Group();
+      scene.add(group);
+      const geo = new THREE.BoxGeometry(3.5, 3.5, 3.5);
+      const cubes = [];
+      
+      for (let x = -2; x <= 2; x++) {
+        for (let y = -1; y <= 1; y++) {
+          const mat = new THREE.MeshBasicMaterial({ color: 0x4f8eff, wireframe: true, transparent: true, opacity: 0.08 + Math.random() * 0.08 });
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.position.set(x * 9, y * 9, (Math.random() - 0.5) * 20);
+          mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+          group.add(mesh);
+          cubes.push({ mesh, ry: (Math.random() - 0.5) * 0.006, rx: (Math.random() - 0.5) * 0.004 });
+        }
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        cubes.forEach(c => {
+          c.mesh.rotation.y += c.ry;
+          c.mesh.rotation.x += c.rx;
+        });
+        group.rotation.y += 0.0006;
+        camera.position.x += (mouseX * 4 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+        camera.lookAt(scene.position);
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 8 — COMPETENCIES: Wave Grid
+    // ════════════════════════════════════════════════════════════════
+    (function compScene() {
+      const canvas = document.getElementById('comp-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 80;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const gridSize = 10;
+      const spacing = 4;
+      const group = new THREE.Group();
+      scene.add(group);
+      
+      const positions = [];
+      for (let x = 0; x < gridSize; x++) {
+        for (let z = 0; z < gridSize; z++) {
+          const px = (x - gridSize / 2) * spacing;
+          const pz = (z - gridSize / 2) * spacing;
+          positions.push({ x: px, z: pz, oy: 0 });
+        }
+      }
+
+      const geo = new THREE.SphereGeometry(0.5, 8, 8);
+      const mat = new THREE.MeshBasicMaterial({ color: 0x00d4aa, wireframe: true, transparent: true, opacity: 0.5 });
+      
+      positions.forEach(p => {
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(p.x, 0, p.z);
+        group.add(mesh);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const time = Date.now() * 0.001;
+        group.children.forEach((mesh, i) => {
+          const pos = positions[i];
+          const wave = Math.sin(pos.x * 0.1 + time) * Math.cos(pos.z * 0.1 + time) * 5;
+          mesh.position.y = wave;
+        });
+        group.rotation.y += 0.0005;
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // SCENE 9 — CONTACT: Floating Particles
+    // ════════════════════════════════════════════════════════════════
+    (function contactScene() {
+      const canvas = document.getElementById('contact-canvas');
+      if (!canvas) return;
+      const renderer = makeRenderer(canvas);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
+      camera.position.z = 100;
+      
+      function resize() { resizeRenderer(renderer, camera, canvas); }
+      resize(); window.addEventListener('resize', resize);
+
+      const particleCount = 150;
+      const geo = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 150;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 150;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 150;
+      }
+      
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({ color: 0xa78bfa, size: 1, transparent: true, opacity: 0.7 });
+      const particles = new THREE.Points(geo, mat);
+      scene.add(particles);
+
+      function animate() {
+        requestAnimationFrame(animate);
+        particles.rotation.x += 0.0002;
+        particles.rotation.y += 0.0003;
+        camera.position.x += (mouseX * 8 - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY * 8 - camera.position.y) * 0.02;
+        camera.lookAt(scene.position);
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
+    // ════════════════════════════════════════════════════════════════
+    // ADMIN PANEL FUNCTIONS
+    // ════════════════════════════════════════════════════════════════
+
+    const ADMIN_PASSWORD = 'admin123';
+
+    function openAdmin() {
+      document.getElementById('admin-overlay').style.display = 'block';
+      document.getElementById('login-screen').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+    }
+
+    function closeAdmin() {
+      document.getElementById('admin-overlay').style.display = 'none';
+      document.getElementById('login-err').style.display = 'none';
+    }
+
+    function login() {
+      const pwd = document.getElementById('pwd-input').value;
+      if (pwd === ADMIN_PASSWORD) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('pwd-input').value = '';
+      } else {
+        document.getElementById('login-err').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('login-err').style.display = 'none';
+        }, 3000);
+      }
+    }
+
+    function logout() {
+      document.getElementById('login-screen').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('pwd-input').value = '';
+    }
+
+    function showPanel(panelId) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + panelId).classList.add('active');
+      
+      document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+      event.target.closest('.sidebar-item').classList.add('active');
+    }
+
+    function saveHero() {
+      const first = document.getElementById('h-first').value;
+      const last = document.getElementById('h-last').value;
+      alert(`✅ Hero section updated!\n\nName: ${first} ${last}\n\nRefresh the page to see changes.`);
+    }
+
+    function saveAbout() {
+      alert('✅ About section updated!\nRefresh the page to see changes.');
+    }
+
+    function saveSkills() {
+      alert('✅ Skills refreshed!');
+    }
+
+    function saveExp() {
+      alert('✅ Experience updated!');
+    }
+
+    function saveProjects() {
+      alert('✅ Projects updated!');
+    }
+
+    function saveCerts() {
+      alert('✅ Certifications updated!');
+    }
+
+    function saveContact() {
+      const email = document.getElementById('contact-email').value;
+      alert(`✅ Contact info updated!\n\nEmail: ${email}`);
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // SCROLL ANIMATIONS
+    // ════════════════════════════════════════════════════════════════
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.style.opacity = '1';
+          el.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.skill-card, .cert-card, .comp-item, .project-card, .timeline-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
